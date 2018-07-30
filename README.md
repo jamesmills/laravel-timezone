@@ -3,9 +3,13 @@
 [![Packagist](https://img.shields.io/packagist/v/jamesmills/laravel-timezone.svg?style=flat-square)](https://packagist.org/packages/jamesmills/laravel-timezone)
 [![Packagist](https://img.shields.io/packagist/l/jamesmills/laravel-timezone.svg?style=flat-square)]()
 
-This package listens for the `\Illuminate\Auth\Events\Login` event and will then automatically set a `timezone` on your `user` model (stored in the database). It offers a simple way to then show dates to your user in their timezone `{{ Timezone::convertToLocal($post->created_at) }}`.   
+An easy way to set a timezone for a user in your application and then show date/times to them in their local timezone. 
 
-***Assumption** You have kept your application default timezone to UTC and you are storing all your dates as UTC in your database, which you should be.*
+All you have to do is install this package, run the migration and go!
+
+## How 
+
+This package listens for the `\Illuminate\Auth\Events\Login` event and will then automatically set a `timezone` on your `user` model (stored in the database). 
 
 ## Installation
 
@@ -15,7 +19,7 @@ Pull in the package using Composer
 composer require jamesmills/laravel-timezone
 ```
 
-Publish and run the database migrations. This will add a `timezone` column to your `users` table (if one does not already exist).
+Publish and run the database migrations. This will add a `timezone` column to your `users` table.
 
 ```
 php artisan vendor:publish --provider="JamesMills\LaravelTimezone\LaravelTimezoneServiceProvider" --tag="migrations"
@@ -42,7 +46,7 @@ Default will use the format `jS F Y g:i:a` and will not show the timezone
 ```
 {{ Timezone::convertToLocal($post->created_at) }}
 
-// 4th July 2018 3:32:am Updated 4th July 2018 5:27:am
+4th July 2018 3:32:am Updated 4th July 2018 5:27:am
 ```
 
 If you wish you can set a custom format and also include a nice version of the timezone
@@ -50,7 +54,7 @@ If you wish you can set a custom format and also include a nice version of the t
 ```
 {{ Timezone::convertToLocal($post->created_at, 'Y-m-d', true) }}
 
-// 2018-07-04 New York, America
+2018-07-04 New York, America
 ```
 
 ### Saving the users input to the database in UTC
