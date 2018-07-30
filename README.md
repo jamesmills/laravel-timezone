@@ -11,6 +11,8 @@ All you have to do is install this package, run the migration and go!
 
 This package listens for the `\Illuminate\Auth\Events\Login` event and will then automatically set a `timezone` on your `user` model (stored in the database). 
 
+You can show dates to your user in their timezone by using `{{ Timezone::convertToLocal($post->created_at) }}`.
+
 ## Installation
 
 Pull in the package using Composer
