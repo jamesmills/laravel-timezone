@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listeners\Auth;
+namespace JamesMills\LaravelTimezone\Listeners\Auth;
 
 use Illuminate\Auth\Events\Login;
 
@@ -22,7 +22,11 @@ class UpdateUsersTimezone
             $user->timezone = $geoip_info['timezone'];
             $user->save();
 
-            flash()->success('We have set your timezone to ' . $geoip_info['timezone']);
+            if (config('timezone.laracast-flash', 'false')) {
+                flash()->success('We have set your timezone to ' . $geoip_info['timezone']);
+            } else {
+                request()->session()->flash('success', 'We have set your timezone to ' . $geoip_info['timezone']);
+            }
         }
     }
 }

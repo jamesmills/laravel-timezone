@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class AddTimezoneColumnToUsersTable extends Migration
+class AddTimezoneColumnToUsersTablePackage extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddTimezoneColumnToUsersTable extends Migration
     {
         if (!Schema::hasColumn('users', 'timezone')) {
             Schema::table('users', function (Blueprint $table) {
-                $table->string('timezone')->after('password')->nullable();
+                $table->string('timezone')->after('remember_token')->nullable();
             });
         }
     }

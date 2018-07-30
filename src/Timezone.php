@@ -2,9 +2,11 @@
 
 namespace JamesMills\LaravelTimezone;
 
+use Carbon\Carbon;
+
 class Timezone
 {
-    public function convertoToLocal($date, $format = 'jS F Y g:i:a', $format_timezone = false)
+    public function convertToLocal(Carbon $date, $format = 'jS F Y g:i:a', $format_timezone = false)
     {
         if (is_null($date)) {
             return 'Empty';
@@ -21,7 +23,12 @@ class Timezone
         return $formatted_date_time;
     }
 
-    public function formatTimezone($date)
+    public function convertFromLocal($date) : Carbon
+    {
+        return Carbon::parse($date, auth()->user()->timezone)->setTimezone('UTC');
+    }
+
+    public function formatTimezone(Carbon $date)
     {
         $timezone = $date->format('e');
         $parts = explode('/', $timezone);
