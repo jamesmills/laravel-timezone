@@ -48,15 +48,15 @@ Default will use the format `jS F Y g:i:a` and will not show the timezone
 ```
 {{ Timezone::convertToLocal($post->created_at) }}
 
-4th July 2018 3:32:am Updated 4th July 2018 5:27:am
+4th July 2018 3:32:am
 ```
 
 If you wish you can set a custom format and also include a nice version of the timezone
 
 ```
-{{ Timezone::convertToLocal($post->created_at, 'Y-m-d', true) }}
+{{ Timezone::convertToLocal($post->created_at, 'Y-m-d g:i', true) }}
 
-2018-07-04 New York, America
+2018-07-04 3:32 New York, America
 ```
 
 ### Saving the users input to the database in UTC
