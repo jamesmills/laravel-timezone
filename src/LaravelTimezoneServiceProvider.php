@@ -37,7 +37,7 @@ class LaravelTimezoneServiceProvider extends ServiceProvider
         // Allow config publish
         $this->publishes([
             __DIR__ . '/config/timezone.php' => config_path('timezone.php'),
-        ], "config");
+        ], 'config');
 
 //        Blade::directive(
 //            'displayDate',

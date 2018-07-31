@@ -39,5 +39,4 @@ class Timezone
 
         return str_replace('_', ' ', $parts[0]);
     }
-
 }
