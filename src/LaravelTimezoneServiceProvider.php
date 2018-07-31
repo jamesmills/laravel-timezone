@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
+use JamesMills\LaravelTimezone\Listeners\Auth\UpdateUsersTimezone;
 
 class LaravelTimezoneServiceProvider extends ServiceProvider
 {
@@ -24,30 +25,27 @@ class LaravelTimezoneServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Register database migrations
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
 
-
+        // Register the Timezone alias
         AliasLoader::getInstance()->alias('Timezone', \JamesMills\LaravelTimezone\Facades\Timezone::class);
+
+        // Register an event listener
+        Event::listen(\Illuminate\Auth\Events\Login::class, UpdateUsersTimezone::class);
+
+        // Allow config publish
+        $this->publishes([
+            __DIR__ . '/config/timezone.php' => config_path('timezone.php'),
+        ], "config");
 
 //        Blade::directive(
 //            'displayDate',
 //            function ($expression) {
 //                list($date, $format) = explode(',', $expression);
-        /*                return  "<?php echo Timezones::convertoToLocal($date, $format); ?>";*/
+/*                return  "<?php echo Timezones::convertoToLocal($date, $format); ?>";*/
 //            }
 //        );
-
-        /*
-         * Register an event listener
-         */
-        Event::listen(\Illuminate\Auth\Events\Login::class, \JamesMills\LaravelTimezone\Listeners\Auth\UpdateUsersTimezone::class);
-
-        /*
-         * Allow config publish
-         */
-        $this->publishes([
-            __DIR__ . '/config/timezone.php' => config_path('timezone.php'),
-        ], "config");
     }
 
     /**
