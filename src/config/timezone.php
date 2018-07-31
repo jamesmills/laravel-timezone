@@ -4,13 +4,14 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Logging Configuration
+    | Flash messages
     |--------------------------------------------------------------------------
     |
-    | Here you may configure the log settings for when a location is not found
-    | for the IP provided.
+    | Here you may configure if to use the laracasts/flash package for flash
+    | notifications when a users timezone is set.
+    | options [standard, laracasts]
     |
     */
 
-    'laracast-flash' => false,
+    'flash' => 'standard',
 ];

@@ -22,7 +22,7 @@ class UpdateUsersTimezone
             $user->timezone = $geoip_info['timezone'];
             $user->save();
 
-            if (config('timezone.laracast-flash', 'false')) {
+            if (config('timezone.flash') == 'laracasts') {
                 flash()->success('We have set your timezone to ' . $geoip_info['timezone']);
             } else {
                 request()->session()->flash('success', 'We have set your timezone to ' . $geoip_info['timezone']);
