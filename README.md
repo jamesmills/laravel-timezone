@@ -59,6 +59,25 @@ If you wish you can set a custom format and also include a nice version of the t
 2018-07-04 3:32 New York, America
 ```
 
+### Using blade directive
+
+Making your life easier one small step at a time
+
+```
+@displayDate($post->created_at)
+
+4th July 2018 3:32:am
+```
+
+And with custom formatting
+
+```
+@displayDate($post->created_at, 'Y-m-d g:i', true)
+
+2018-07-04 3:32 New York, America
+```
+
+
 ### Saving the users input to the database in UTC
 
 This will take a date/time, set it to the users timezone then return it as UTC in a Carbon instance.
