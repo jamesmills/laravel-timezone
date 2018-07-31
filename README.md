@@ -21,10 +21,9 @@ Pull in the package using Composer
 composer require jamesmills/laravel-timezone
 ```
 
-Publish and run the database migrations. This will add a `timezone` column to your `users` table.
+Run the database migrations. This will add a `timezone` column to your `users` table.
 
 ```
-php artisan vendor:publish --provider="JamesMills\LaravelTimezone\LaravelTimezoneServiceProvider" --tag="migrations"
 php artisan migrate
 ```
 
