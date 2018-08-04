@@ -52,7 +52,7 @@ class LaravelTimezoneServiceProvider extends ServiceProvider
                 } elseif (count($options) == 2) {
                     return "<?php echo e(Timezone::convertToLocal($options[0], $options[1])); ?>";
                 } elseif (count($options) == 3) {
-                    return "<?php echo e(Timezone::convertToLocal($options[0], $options[1], $options[0])); ?>";
+                    return "<?php echo e(Timezone::convertToLocal($options[0], $options[1], $options[2])); ?>";
                 } else {
                     return 'error';
                 }
