@@ -5,13 +5,27 @@
 
 An easy way to set a timezone for a user in your application and then show date/times to them in their local timezone. 
 
-All you have to do is install this package, run the migration and go!
+## How does it work 
 
-## How 
+This package listens for the `\Illuminate\Auth\Events\Login` event and will then automatically set a `timezone` on your `user` model (stored in the database).
 
-This package listens for the `\Illuminate\Auth\Events\Login` event and will then automatically set a `timezone` on your `user` model (stored in the database). 
+This package uses the [torann/geoip](http://lyften.com/projects/laravel-geoip/doc/) package which looks up the users location based on their IP address. The package also returns information like the users currency and users timezone. [You can configure this package separately if you require](#custom-configuration).
 
-You can show dates to your user in their timezone by using `{{ Timezone::convertToLocal($post->created_at) }}`.
+ ## How to use
+
+You can show dates to your user in their timezone by using
+
+```php
+{{ Timezone::convertToLocal($post->created_at) }}
+```
+
+Or use our nice blade directive
+
+```
+@displayDate($post->created_at)
+```
+
+[More examples below](#examples)
 
 ## Installation
 
@@ -34,9 +48,17 @@ By default when the timezone has been set there is a flash message set in the se
 
 ## Custom Configuration
 
+Publishing the config file is optional.
+
 There isn't much to configure right now. You only need to do this if you want to use Laracast Flash Messages
 ```
-php artisan vendor:publish --provider="JamesMills\LaravelTimezone\LaravelTimezoneServiceProvider" --tag="config"
+php artisan vendor:publish --provider="JamesMills\LaravelTimezone\LaravelTimezoneServiceProvider" --tag=config
+```
+
+If you wish to customise the underlying `torann/geoip` package you can publish the config file by using the command below.
+
+```php
+php artisan vendor:publish --provider="Torann\GeoIP\GeoIPServiceProvider" --tag=config
 ```
 
 ## Examples
@@ -87,5 +109,9 @@ $post = Post::create([
     'description' => $request->input('description'),
 ]);
 ```
+
+## Issues
+
+If you receive a message like `This cache store does not support tagging` this is because the `torann/geoip` package requires a caching driver which supports tagging and you probably have your application set to use the `file` cache driver. You can [publish the config file](#custom-configuration) for the `torann/geoip` package and set `'cache_tags' => null,` to solve this. [Read more about this issue here](https://github.com/jamesmills/laravel-timezone/issues/4#issuecomment-494648925). 
 
 
