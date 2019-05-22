@@ -1,7 +1,8 @@
 # Laravel Timezone
 
-[![Packagist](https://img.shields.io/packagist/v/jamesmills/laravel-timezone.svg?style=flat-square)](https://packagist.org/packages/jamesmills/laravel-timezone)
-[![Packagist](https://img.shields.io/packagist/l/jamesmills/laravel-timezone.svg?style=flat-square)]()
+[![Packagist](https://img.shields.io/packagist/v/jamesmills/laravel-timezone.svg?style=for-the-badge)](https://packagist.org/packages/jamesmills/laravel-timezone)
+![Packagist](https://img.shields.io/packagist/dt/jamesmills/laravel-timezone.svg?style=for-the-badge)
+[![Packagist](https://img.shields.io/packagist/l/jamesmills/laravel-timezone.svg?style=for-the-badge)]()
 
 An easy way to set a timezone for a user in your application and then show date/times to them in their local timezone. 
 
