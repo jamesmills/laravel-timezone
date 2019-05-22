@@ -22,7 +22,7 @@ You can show dates to your user in their timezone by using
 
 Or use our nice blade directive
 
-```
+```php
 @displayDate($post->created_at)
 ```
 
@@ -52,7 +52,8 @@ By default when the timezone has been set there is a flash message set in the se
 Publishing the config file is optional.
 
 There isn't much to configure right now. You only need to do this if you want to use Laracast Flash Messages
-```
+
+```php
 php artisan vendor:publish --provider="JamesMills\LaravelTimezone\LaravelTimezoneServiceProvider" --tag=config
 ```
 
@@ -67,7 +68,8 @@ php artisan vendor:publish --provider="Torann\GeoIP\GeoIPServiceProvider" --tag=
 ### Showing date/time to the user in their timezone
 
 Default will use the format `jS F Y g:i:a` and will not show the timezone
-```
+
+```php
 {{ Timezone::convertToLocal($post->created_at) }}
 
 4th July 2018 3:32:am
@@ -75,7 +77,7 @@ Default will use the format `jS F Y g:i:a` and will not show the timezone
 
 If you wish you can set a custom format and also include a nice version of the timezone
 
-```
+```php
 {{ Timezone::convertToLocal($post->created_at, 'Y-m-d g:i', true) }}
 
 2018-07-04 3:32 New York, America
@@ -85,7 +87,7 @@ If you wish you can set a custom format and also include a nice version of the t
 
 Making your life easier one small step at a time
 
-```
+```php
 @displayDate($post->created_at)
 
 4th July 2018 3:32:am
@@ -93,7 +95,7 @@ Making your life easier one small step at a time
 
 And with custom formatting
 
-```
+```php
 @displayDate($post->created_at, 'Y-m-d g:i', true)
 
 2018-07-04 3:32 New York, America
@@ -104,7 +106,7 @@ And with custom formatting
 
 This will take a date/time, set it to the users timezone then return it as UTC in a Carbon instance.
 
-```
+```php
 $post = Post::create([
     'publish_at' => Timezone::convertFromLocal($request->get('publish_at')),
     'description' => $request->input('description'),
