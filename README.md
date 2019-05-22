@@ -72,7 +72,7 @@ Default will use the format `jS F Y g:i:a` and will not show the timezone
 ```php
 {{ Timezone::convertToLocal($post->created_at) }}
 
-4th July 2018 3:32:am
+// 4th July 2018 3:32:am
 ```
 
 If you wish you can set a custom format and also include a nice version of the timezone
@@ -80,7 +80,7 @@ If you wish you can set a custom format and also include a nice version of the t
 ```php
 {{ Timezone::convertToLocal($post->created_at, 'Y-m-d g:i', true) }}
 
-2018-07-04 3:32 New York, America
+// 2018-07-04 3:32 New York, America
 ```
 
 ### Using blade directive
@@ -90,7 +90,7 @@ Making your life easier one small step at a time
 ```php
 @displayDate($post->created_at)
 
-4th July 2018 3:32:am
+// 4th July 2018 3:32:am
 ```
 
 And with custom formatting
@@ -98,7 +98,7 @@ And with custom formatting
 ```php
 @displayDate($post->created_at, 'Y-m-d g:i', true)
 
-2018-07-04 3:32 New York, America
+// 2018-07-04 3:32 New York, America
 ```
 
 
