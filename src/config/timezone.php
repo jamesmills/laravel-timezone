@@ -14,4 +14,19 @@ return [
     */
 
     'flash' => 'standard',
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Overwrite Existing Timezone
+    |--------------------------------------------------------------------------
+    |
+    | Here you may configure if you would like to overwrite existing
+    | timezones if they have been already set in the database.
+    | options [true, false]
+    |
+    */
+
+    'overwrite' => true,
+
 ];
