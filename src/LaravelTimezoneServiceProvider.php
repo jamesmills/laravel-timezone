@@ -2,11 +2,13 @@
 
 namespace JamesMills\LaravelTimezone;
 
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Foundation\AliasLoader;
 use JamesMills\LaravelTimezone\Listeners\Auth\UpdateUsersTimezone;
+use Symfony\Component\Finder\SplFileInfo;
 
 class LaravelTimezoneServiceProvider extends ServiceProvider
 {
@@ -25,8 +27,8 @@ class LaravelTimezoneServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Register database migrations
-        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+        // Allow migrations publish
+        $this->publishes($this->getMigrations(), 'migrations');
 
         // Register the Timezone alias
         AliasLoader::getInstance()->alias('Timezone', \JamesMills\LaravelTimezone\Facades\Timezone::class);
@@ -68,5 +70,24 @@ class LaravelTimezoneServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind('timezone', Timezone::class);
+    }
+
+    private function getMigrations(): array
+    {
+        $packageMigrationDir = __DIR__.DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'migrations';
+        $applicationMigrationFolder = database_path('migrations').DIRECTORY_SEPARATOR;
+        $timestamp = date('Y_m_d_His');
+        $migrations = [];
+
+        /** @var SplFileInfo $splFileInfo */
+        foreach (File::files($packageMigrationDir) as $splFileInfo) {
+            $pattern = '/(\d{4}_\d{2}_\d{2}_\d{6}_){1}(.*)/';
+            $subject = $splFileInfo->getFilename();
+            preg_match($pattern, $subject, $matches);
+            $filename = $matches[2];
+            $migrations[$splFileInfo->getPathname()] = $applicationMigrationFolder.$timestamp."_".$filename;
+        }
+
+        return $migrations;
     }
 }
