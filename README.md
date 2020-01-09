@@ -92,15 +92,6 @@ $post = Post::create([
 ]);
 ```
 
-## Flash Messages
-
-By default when the timezone has been set there is a flash message set in the session. There is an optional integration to use [laracasts/flash](https://github.com/laracasts/flash) package if you wish. Just publish the config options (info below) and override the default settings.  
-
-
-## Overwrite existing timezones in the database
-
-By default, the timezone will be overwritten at each login with the current user timezone. This behavior can be restricted to only update the timezone if it is blank by setting the `'overwrite' => false,` config option (info below).
-
 ## Custom Configuration
 
 Publishing the config file is optional.
@@ -116,6 +107,21 @@ If you wish to customise the underlying `torann/geoip` package you can publish t
 ```php
 php artisan vendor:publish --provider="Torann\GeoIP\GeoIPServiceProvider" --tag=config
 ```
+
+### Flash Messages
+
+By default, when the timezone has been set, there is a flash message set in the session. There is an optional integration to use [laracasts/flash](https://github.com/laracasts/flash) package if you wish. Just publish the config options and override the default settings.  
+
+
+### Overwrite existing timezones in the database
+
+By default, the timezone will be overwritten at each login with the current user timezone. This behavior can be restricted to only update the timezone if it is blank by setting the `'overwrite' => false,` config option.
+
+
+## Changelog
+
+Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
+
 
 ## Treeware
 
