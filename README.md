@@ -4,9 +4,9 @@
 ![Packagist](https://img.shields.io/packagist/dt/jamesmills/laravel-timezone.svg?style=for-the-badge)
 [![Packagist](https://img.shields.io/packagist/l/jamesmills/laravel-timezone.svg?style=for-the-badge)]()
 
-An easy way to set a timezone for a user in your application and then show date/times to them in their local timezone. 
+An easy way to set a timezone for a user in your application and then show date/times to them in their local timezone.
 
-## How does it work 
+## How does it work
 
 This package listens for the `\Illuminate\Auth\Events\Login` event and will then automatically set a `timezone` on your `user` model (stored in the database).
 
@@ -47,11 +47,15 @@ php artisan migrate
 By default when the timezone has been set there is a flash message set in the session. There is an optional integration to use [laracasts/flash](https://github.com/laracasts/flash) package if you wish. Just publish the config options (info below) and override the default settings.  
 
 
+## Overwrite existing timezones in the database
+
+By default, the timezone will be overwritten at each login with the current user timezone. This behavior can be restricted to only update the timezone if it is blank by setting the `'overwrite' => false,` config option (info below).
+
 ## Custom Configuration
 
 Publishing the config file is optional.
 
-There isn't much to configure right now. You only need to do this if you want to use Laracast Flash Messages
+There isn't much to configure right now. You only need to do this if you want to use Laracast Flash Messages or restrict overwriting the database.
 
 ```php
 php artisan vendor:publish --provider="JamesMills\LaravelTimezone\LaravelTimezoneServiceProvider" --tag=config
@@ -115,6 +119,4 @@ $post = Post::create([
 
 ## Issues
 
-If you receive a message like `This cache store does not support tagging` this is because the `torann/geoip` package requires a caching driver which supports tagging and you probably have your application set to use the `file` cache driver. You can [publish the config file](#custom-configuration) for the `torann/geoip` package and set `'cache_tags' => null,` to solve this. [Read more about this issue here](https://github.com/jamesmills/laravel-timezone/issues/4#issuecomment-494648925). 
-
-
+If you receive a message like `This cache store does not support tagging` this is because the `torann/geoip` package requires a caching driver which supports tagging and you probably have your application set to use the `file` cache driver. You can [publish the config file](#custom-configuration) for the `torann/geoip` package and set `'cache_tags' => null,` to solve this. [Read more about this issue here](https://github.com/jamesmills/laravel-timezone/issues/4#issuecomment-494648925).
