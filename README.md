@@ -43,31 +43,6 @@ Run the database migrations. This will add a `timezone` column to your `users` t
 php artisan migrate
 ```
 
-## Flash Messages
-
-By default when the timezone has been set there is a flash message set in the session. There is an optional integration to use [laracasts/flash](https://github.com/laracasts/flash) package if you wish. Just publish the config options (info below) and override the default settings.  
-
-
-## Overwrite existing timezones in the database
-
-By default, the timezone will be overwritten at each login with the current user timezone. This behavior can be restricted to only update the timezone if it is blank by setting the `'overwrite' => false,` config option (info below).
-
-## Custom Configuration
-
-Publishing the config file is optional.
-
-There isn't much to configure right now. You only need to do this if you want to use Laracast Flash Messages or restrict overwriting the database.
-
-```php
-php artisan vendor:publish --provider="JamesMills\LaravelTimezone\LaravelTimezoneServiceProvider" --tag=config
-```
-
-If you wish to customise the underlying `torann/geoip` package you can publish the config file by using the command below.
-
-```php
-php artisan vendor:publish --provider="Torann\GeoIP\GeoIPServiceProvider" --tag=config
-```
-
 ## Examples
 
 ### Showing date/time to the user in their timezone
@@ -106,7 +81,6 @@ And with custom formatting
 // 2018-07-04 3:32 New York, America
 ```
 
-
 ### Saving the users input to the database in UTC
 
 This will take a date/time, set it to the users timezone then return it as UTC in a Carbon instance.
@@ -116,6 +90,31 @@ $post = Post::create([
     'publish_at' => Timezone::convertFromLocal($request->get('publish_at')),
     'description' => $request->input('description'),
 ]);
+```
+
+## Flash Messages
+
+By default when the timezone has been set there is a flash message set in the session. There is an optional integration to use [laracasts/flash](https://github.com/laracasts/flash) package if you wish. Just publish the config options (info below) and override the default settings.  
+
+
+## Overwrite existing timezones in the database
+
+By default, the timezone will be overwritten at each login with the current user timezone. This behavior can be restricted to only update the timezone if it is blank by setting the `'overwrite' => false,` config option (info below).
+
+## Custom Configuration
+
+Publishing the config file is optional.
+
+There isn't much to configure right now. You only need to do this if you want to use Laracast Flash Messages or restrict overwriting the database.
+
+```php
+php artisan vendor:publish --provider="JamesMills\LaravelTimezone\LaravelTimezoneServiceProvider" --tag=config
+```
+
+If you wish to customise the underlying `torann/geoip` package you can publish the config file by using the command below.
+
+```php
+php artisan vendor:publish --provider="Torann\GeoIP\GeoIPServiceProvider" --tag=config
 ```
 
 ## Treeware
