@@ -5,10 +5,8 @@ namespace JamesMills\LaravelTimezone;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
 use JamesMills\LaravelTimezone\Listeners\Auth\UpdateUsersTimezone;
-use Symfony\Component\Finder\SplFileInfo;
 
 class LaravelTimezoneServiceProvider extends ServiceProvider
 {
