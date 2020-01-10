@@ -38,7 +38,7 @@ class LaravelTimezoneServiceProvider extends ServiceProvider
 
         // Allow config publish
         $this->publishes([
-            __DIR__ . '/config/timezone.php' => config_path('timezone.php'),
+            __DIR__.'/config/timezone.php' => config_path('timezone.php'),
         ], 'config');
 
         // Register a blade directive to show user date/time in their timezone
@@ -76,16 +76,19 @@ class LaravelTimezoneServiceProvider extends ServiceProvider
     {
         $packageMigrationDir = __DIR__.DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'migrations';
         $applicationMigrationFolder = database_path('migrations').DIRECTORY_SEPARATOR;
-        $timestamp = date('Y_m_d_His');
+        $baseTimestamp = date('Y_m_d_Hi');
         $migrations = [];
 
         /** @var SplFileInfo $splFileInfo */
-        foreach (File::files($packageMigrationDir) as $splFileInfo) {
+        foreach (File::files($packageMigrationDir) as $key => $splFileInfo) {
             $pattern = '/(\d{4}_\d{2}_\d{2}_\d{6}_){1}(.*)/';
             $subject = $splFileInfo->getFilename();
             preg_match($pattern, $subject, $matches);
             $filename = $matches[2];
-            $migrations[$splFileInfo->getPathname()] = $applicationMigrationFolder.$timestamp."_".$filename;
+
+            $fileTimestamp = $baseTimestamp . str_pad($key, 2, '0', STR_PAD_LEFT);
+
+            $migrations[$splFileInfo->getPathname()] = $applicationMigrationFolder.$fileTimestamp."_".$filename;
         }
 
         return $migrations;
