@@ -47,9 +47,7 @@ class LaravelTimezoneServiceProvider extends ServiceProvider
         Blade::directive(
             'displayDate',
             function ($expression) {
-
-                // list($date, $format, $format_timezone) = explode(',', str_replace(' ', '', $expression));
-                $options = explode(',', str_replace(' ', '', $expression));
+                $options = explode(',', $expression);
 
                 if (count($options) == 1) {
                     return "<?php echo e(Timezone::convertToLocal($options[0])); ?>";
