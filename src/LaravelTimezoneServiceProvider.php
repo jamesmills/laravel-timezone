@@ -28,7 +28,7 @@ class LaravelTimezoneServiceProvider extends ServiceProvider
         // Allow migrations publish
         if (! class_exists('AddTimezoneColumnToUsersTable')) {
             $this->publishes([
-                __DIR__.'/database/migrations/add_timezone_column_to_users_table.php.stub' => database_path('/migrations/' . date('Y_m_d_His') . '_add_timezone_column_to_users_table.php'),
+                __DIR__ . '/database/migrations/add_timezone_column_to_users_table.php.stub' => database_path('/migrations/' . date('Y_m_d_His') . '_add_timezone_column_to_users_table.php'),
             ], 'migrations');
         }
 
@@ -40,7 +40,7 @@ class LaravelTimezoneServiceProvider extends ServiceProvider
 
         // Allow config publish
         $this->publishes([
-            __DIR__.'/config/timezone.php' => config_path('timezone.php'),
+            __DIR__ . '/config/timezone.php' => config_path('timezone.php'),
         ], 'config');
 
         // Register a blade directive to show user date/time in their timezone
@@ -73,5 +73,4 @@ class LaravelTimezoneServiceProvider extends ServiceProvider
     {
         $this->app->bind('timezone', Timezone::class);
     }
-
 }
