@@ -27,9 +27,8 @@ class LaravelTimezoneServiceProvider extends ServiceProvider
     {
         // Allow migrations publish
         if (! class_exists('AddTimezoneColumnToUsersTable')) {
-            $timestamp = date('Y_m_d_His', time());
             $this->publishes([
-                __DIR__.'/database/migrations/add_timezone_column_to_users_table.php.stub' => database_path("/migrations/{$timestamp}_add_timezone_column_to_users_table.php"),
+                __DIR__.'/database/migrations/add_timezone_column_to_users_table.php.stub' => database_path('/migrations/' . date('Y_m_d_His') . '_add_timezone_column_to_users_table.php'),
             ], 'migrations');
         }
 
