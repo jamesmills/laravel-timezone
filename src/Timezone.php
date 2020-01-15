@@ -14,10 +14,16 @@ class Timezone
 
         $timezone = (auth()->user()->timezone) ?? config('app.timezone');
 
-        $formatted_date_time = $date->setTimezone($timezone)->format($format);
+        $date->setTimezone($timezone);
+
+        if (is_null($format)) {
+            return $date->format(config('timezone.format'));
+        }
+
+        $formatted_date_time = $date->format($format);
 
         if ($format_timezone) {
-            $formatted_date_time .= ' ' . $this->formatTimezone($date);
+            return $formatted_date_time . ' ' . $this->formatTimezone($date);
         }
 
         return $formatted_date_time;
