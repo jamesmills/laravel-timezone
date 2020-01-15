@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.5.0] - 2020-01-15
+### Added
+- Ability to publish migration dynamically (Thank you [amandiobm](https://github.com/amandiobm)) ([PR#7](https://github.com/jamesmills/laravel-timezone/pull/7))
+
 ## [1.4.0] - 2020-01-09
 ### Added
 - Added config option for overwriting database value (Thank you [micahhenshaw](https://github.com/micahhenshaw)) ([PR#5](https://github.com/jamesmills/laravel-timezone/pull/5))
