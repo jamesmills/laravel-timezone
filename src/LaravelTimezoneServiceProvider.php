@@ -2,10 +2,10 @@
 
 namespace JamesMills\LaravelTimezone;
 
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Foundation\AliasLoader;
 use JamesMills\LaravelTimezone\Listeners\Auth\UpdateUsersTimezone;
 
 class LaravelTimezoneServiceProvider extends ServiceProvider
@@ -25,8 +25,13 @@ class LaravelTimezoneServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Register database migrations
-        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+        // Allow migrations publish
+        if (! class_exists('AddTimezoneColumnToUsersTable')) {
+            $timestamp = date('Y_m_d_His', time());
+            $this->publishes([
+                __DIR__.'/database/migrations/add_timezone_column_to_users_table.php.stub' => database_path("/migrations/{$timestamp}_add_timezone_column_to_users_table.php"),
+            ], 'migrations');
+        }
 
         // Register the Timezone alias
         AliasLoader::getInstance()->alias('Timezone', \JamesMills\LaravelTimezone\Facades\Timezone::class);
@@ -36,7 +41,7 @@ class LaravelTimezoneServiceProvider extends ServiceProvider
 
         // Allow config publish
         $this->publishes([
-            __DIR__ . '/config/timezone.php' => config_path('timezone.php'),
+            __DIR__.'/config/timezone.php' => config_path('timezone.php'),
         ], 'config');
 
         // Register a blade directive to show user date/time in their timezone
@@ -69,4 +74,5 @@ class LaravelTimezoneServiceProvider extends ServiceProvider
     {
         $this->app->bind('timezone', Timezone::class);
     }
+
 }
