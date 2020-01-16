@@ -102,22 +102,13 @@ $post = Post::create([
 
 Publishing the config file is optional.
 
-There isn't much to configure right now. You only need to do this if you want to use Laracast Flash Messages or restrict overwriting the database.
-
 ```php
 php artisan vendor:publish --provider="JamesMills\LaravelTimezone\LaravelTimezoneServiceProvider" --tag=config
 ```
 
-If you wish to customise the underlying `torann/geoip` package you can publish the config file by using the command below.
-
-```php
-php artisan vendor:publish --provider="Torann\GeoIP\GeoIPServiceProvider" --tag=config
-```
-
 ### Flash Messages
 
-By default, when the timezone has been set, there is a flash message set in the session. There is an optional integration to use [laracasts/flash](https://github.com/laracasts/flash) package if you wish. Just publish the config options and override the default settings.  
-
+By default, when the timezone has been set, there is a flash message set in the session. There is an optional integration to use [laracasts/flash](https://github.com/laracasts/flash) package if you wish. Just publish the config and override the default `'flash' => 'laracasts'` settings.  
 
 ### Overwrite existing timezones in the database
 
@@ -125,7 +116,15 @@ By default, the timezone will be overwritten at each login with the current user
 
 ### Default Format
 
-By default, the date format will be `jS F Y g:i:a`. To override this configuration, you just need to change the `format` property inside the configuration file ´config/timezone.php` for the desired format.
+By default, the date format will be `jS F Y g:i:a`. To override this configuration, you just need to change the `format` property inside the configuration file `config/timezone.php` for the desired format.
+
+### Underlying GeoIp Package
+
+If you wish to customise the underlying `torann/geoip` package you can publish the config file by using the command below.
+
+```php
+php artisan vendor:publish --provider="Torann\GeoIP\GeoIPServiceProvider" --tag=config
+```
 
 ## Changelog
 
