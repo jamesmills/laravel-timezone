@@ -108,7 +108,17 @@ php artisan vendor:publish --provider="JamesMills\LaravelTimezone\LaravelTimezon
 
 ### Flash Messages
 
-By default, when the timezone has been set, there is a flash message set in the session. There is an optional integration to use [laracasts/flash](https://github.com/laracasts/flash) package if you wish. Just publish the config and override the default `'flash' => 'laracasts'` settings.  
+When the timezone has been set, we display a flash message, By default, is configured to use Laravel default flash messaging, here are some of the optional integrations.
+
+[laracasts/flash](https://github.com/laracasts/flash) - `'flash' => 'laracasts'`
+
+[mercuryseries/flashy](https://github.com/mercuryseries/flashy) - `'flash' => 'mercuryseries'`
+
+[spatie/laravel-flash](https://github.com/spatie/laravel-flash) - `'flash' => 'spatie'`
+
+[mckenziearts/laravel-notify](https://github.com/mckenziearts/laravel-notify) - `'flash' => 'mckenziearts'`
+
+To override this configuration, you just need to change the `flash` property inside the configuration file `config/timezone.php` for the desired package.  
 
 ### Overwrite existing timezones in the database
 

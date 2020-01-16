@@ -23,12 +23,50 @@ class UpdateUsersTimezone
                 $user->timezone = $geoip_info['timezone'];
                 $user->save();
 
-                if (config('timezone.flash') == 'laracasts') {
-                    flash()->success('We have set your timezone to ' . $geoip_info['timezone']);
-                } else {
-                    request()->session()->flash('success', 'We have set your timezone to ' . $geoip_info['timezone']);
-                }
+                $this->notify($geoip_info);
             }
+        }
+    }
+
+    /**
+     * @param  \Torann\GeoIP\Location  $geoip_info
+     */
+    public function notify(\Torann\GeoIP\Location $geoip_info)
+    {
+        if (config('timezone.flash') == 'off') {
+            return;
+        }
+
+        $message = 'We have set your timezone to ' . $geoip_info['timezone'];
+
+        if (config('timezone.flash') == 'laravel') {
+            request()->session()->flash('success', $message);
+
+            return;
+        }
+
+        if (config('timezone.flash') == 'laracasts') {
+            flash()->success($message);
+
+            return;
+        }
+
+        if (config('timezone.flash') == 'mercuryseries') {
+            flashy()->success($message);
+
+            return;
+        }
+
+        if (config('timezone.flash') == 'spatie') {
+            flash()->success($message);
+
+            return;
+        }
+
+        if (config('timezone.flash') == 'mckenziearts') {
+            notify()->success($message);
+
+            return;
         }
     }
 }
