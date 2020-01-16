@@ -15,7 +15,6 @@ return [
 
     'flash' => 'standard',
 
-
     /*
     |--------------------------------------------------------------------------
     | Overwrite Existing Timezone
@@ -28,5 +27,17 @@ return [
     */
 
     'overwrite' => true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Overwrite Default Format
+    |--------------------------------------------------------------------------
+    |
+    | Here you may configure if you would like to overwrite the
+    | default format.
+    |
+    */
+
+    'format' => 'jS F Y g:i:a',
 
 ];

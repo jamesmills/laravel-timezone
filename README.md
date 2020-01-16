@@ -123,6 +123,9 @@ By default, when the timezone has been set, there is a flash message set in the 
 
 By default, the timezone will be overwritten at each login with the current user timezone. This behavior can be restricted to only update the timezone if it is blank by setting the `'overwrite' => false,` config option.
 
+### Default Format
+
+By default, the date format will be `jS F Y g:i:a`. To override this configuration, you just need to change the `format` property inside the configuration file ´config/timezone.php` for the desired format.
 
 ## Changelog
 
