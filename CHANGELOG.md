@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.6.0] - 2020-01-16
+### Added
+- Ability to change the default format (Thank you [amandiobm](https://github.com/amandiobm)) ([PR#12](https://github.com/jamesmills/laravel-timezone/pull/12))
+### Fixed
+- Formatting bug where blade directive was removing all spaces (Thank you [amandiobm](https://github.com/amandiobm)) ([PR#11](https://github.com/jamesmills/laravel-timezone/pull/11))
+
 ## [1.5.0] - 2020-01-15
 ### Added
 - Ability to publish migration dynamically (Thank you [amandiobm](https://github.com/amandiobm)) ([PR#7](https://github.com/jamesmills/laravel-timezone/pull/7))
