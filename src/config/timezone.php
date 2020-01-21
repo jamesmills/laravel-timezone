@@ -40,4 +40,23 @@ return [
 
     'format' => 'jS F Y g:i:a',
 
+    /*
+    |--------------------------------------------------------------------------
+    | Lookup Array
+    |--------------------------------------------------------------------------
+    |
+    | Here you may configure the lookup array whom it will be used to fetch the user remote address.
+    | When a key is found inside the lookup array that key it will be used.
+    |
+    */
+
+    'lookup' => [
+        'server' => [
+            'REMOTE_ADDR',
+        ],
+        'headers' => [
+
+        ],
+    ],
+
 ];
