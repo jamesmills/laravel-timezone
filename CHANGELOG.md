@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.7.0] - 2020-01-21
+### Added
+- Added the ability to lookup within any attribute on the request helper, by any key. (Thank you [amandiobm](https://github.com/amandiobm)) ([PR#13](https://github.com/jamesmills/laravel-timezone/pull/13))
+
 ## [1.6.0] - 2020-01-16
 ### Added
 - Ability to change the default format (Thank you [amandiobm](https://github.com/amandiobm)) ([PR#12](https://github.com/jamesmills/laravel-timezone/pull/12))
