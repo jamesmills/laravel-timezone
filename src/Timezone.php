@@ -6,7 +6,13 @@ use Carbon\Carbon;
 
 class Timezone
 {
-    public function convertToLocal(?Carbon $date, $format = null, $format_timezone = false)
+    /**
+     * @param  Carbon|null  $date
+     * @param  null  $format
+     * @param  bool  $format_timezone
+     * @return string
+     */
+    public function convertToLocal(?Carbon $date, $format = null, $format_timezone = false) : string
     {
         if (is_null($date)) {
             return 'Empty';
@@ -29,12 +35,20 @@ class Timezone
         return $formatted_date_time;
     }
 
+    /**
+     * @param $date
+     * @return Carbon
+     */
     public function convertFromLocal($date) : Carbon
     {
         return Carbon::parse($date, auth()->user()->timezone)->setTimezone('UTC');
     }
 
-    public function formatTimezone(Carbon $date)
+    /**
+     * @param  Carbon  $date
+     * @return string
+     */
+    public function formatTimezone(Carbon $date) : string
     {
         $timezone = $date->format('e');
         $parts = explode('/', $timezone);
