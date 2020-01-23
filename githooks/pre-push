@@ -1,0 +1,4 @@
+#!/bin/sh
+
+echo 'Phing QA'
+./vendor/bin/phing qa || exit 1

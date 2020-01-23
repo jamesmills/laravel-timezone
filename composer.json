@@ -25,14 +25,35 @@
 
         }
     },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.12",
+        "phpunit/phpunit": "^8.5",
+        "phing/phing": "^2.16",
+        "pdepend/pdepend": "^2.6",
+        "phploc/phploc": "^5.0",
+        "phpmd/phpmd": "^2.8",
+        "sebastian/phpcpd": "^4.1",
+        "squizlabs/php_codesniffer": "^3.5",
+        "symplify/easy-coding-standard": "^7.2",
+        "object-calisthenics/phpcs-calisthenics-rules": "^3.7",
+        "phpspec/phpspec": "^6.1"
+    },
     "extra": {
         "laravel": {
             "providers": [
-                "JamesMills\\LaravelTimezone\\LaravelTimezoneServiceProvider"
+                "JamesMills\\LaravelTimezone\\Providers\\LaravelTimezoneServiceProvider"
             ]
         }
     },
-    "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.12"
+    "scripts": {
+        "test": [
+            "phing"
+        ],
+        "test:ci": [
+            "phing qa"
+        ],
+        "git-hooks": [
+            "rsync -av --exclude='*.md' ./githooks/ ./.git/hooks"
+        ]
     }
 }

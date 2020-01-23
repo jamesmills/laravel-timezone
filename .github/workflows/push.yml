@@ -1,14 +1,13 @@
-name: PHP Composer
+name: Lint & Tests
 
-#on:
-#  push:
-#    branches:
-#      - master
-
-on: [push]
+on:
+  push:
+    branches-ignore:
+      - master
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -16,5 +15,5 @@ jobs:
         run: composer validate
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
-      - name: Lint
-        run: make fix
+      - name: Lint & Tests
+        run: composer test

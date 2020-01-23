@@ -1,0 +1,5 @@
+#!/bin/sh
+
+echo 'Phing'
+make fix
+./vendor/bin/phing || exit 1

@@ -1,6 +1,6 @@
 <?php
 
-namespace JamesMills\LaravelTimezone;
+namespace JamesMills\LaravelTimezone\Providers;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Blade;
@@ -27,9 +27,7 @@ class LaravelTimezoneServiceProvider extends ServiceProvider
     {
         // Allow migrations publish
         if (! class_exists('AddTimezoneColumnToUsersTable')) {
-            $this->publishes([
-                __DIR__ . '/database/migrations/add_timezone_column_to_users_table.php.stub' => database_path('/migrations/' . date('Y_m_d_His') . '_add_timezone_column_to_users_table.php'),
-            ], 'migrations');
+            $this->publishes($this->migrationHandler(), 'migrations');
         }
 
         // Register the Timezone alias
@@ -51,13 +49,17 @@ class LaravelTimezoneServiceProvider extends ServiceProvider
 
                 if (count($options) == 1) {
                     return "<?php echo e(Timezone::convertToLocal($options[0])); ?>";
-                } elseif (count($options) == 2) {
-                    return "<?php echo e(Timezone::convertToLocal($options[0], $options[1])); ?>";
-                } elseif (count($options) == 3) {
-                    return "<?php echo e(Timezone::convertToLocal($options[0], $options[1], $options[2])); ?>";
-                } else {
-                    return 'error';
                 }
+
+                if (count($options) == 2) {
+                    return "<?php echo e(Timezone::convertToLocal($options[0], $options[1])); ?>";
+                }
+
+                if (count($options) == 3) {
+                    return "<?php echo e(Timezone::convertToLocal($options[0], $options[1], $options[2])); ?>";
+                }
+
+                return 'error';
             }
         );
     }
@@ -88,5 +90,18 @@ class LaravelTimezoneServiceProvider extends ServiceProvider
         ];
 
         Event::listen($events, UpdateUsersTimezone::class);
+    }
+
+    /**
+     * @return array
+     */
+    private function migrationHandler(): array
+    {
+        $from = __DIR__ . '/database/migrations/add_timezone_column_to_users_table.php.stub';
+        $to = database_path('/migrations/' . date('Y_m_d_His') . '_add_timezone_column_to_users_table.php');
+
+        return [
+            $from => $to,
+        ];
     }
 }

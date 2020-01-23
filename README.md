@@ -41,7 +41,7 @@ composer require jamesmills/laravel-timezone
 Publish database migrations
  
 ```
-php artisan vendor:publish --provider="JamesMills\LaravelTimezone\LaravelTimezoneServiceProvider" --tag=migrations
+php artisan vendor:publish --provider="JamesMills\LaravelTimezone\Providers\LaravelTimezoneServiceProvider" --tag=migrations
 ```
 
 Run the database migrations. This will add a `timezone` column to your `users` table.
@@ -104,7 +104,7 @@ $post = Post::create([
 Publishing the config file is optional.
 
 ```php
-php artisan vendor:publish --provider="JamesMills\LaravelTimezone\LaravelTimezoneServiceProvider" --tag=config
+php artisan vendor:publish --provider="JamesMills\LaravelTimezone\Providers\LaravelTimezoneServiceProvider" --tag=config
 ```
 
 ### Flash Messages
