@@ -69,10 +69,11 @@ class UpdateUsersTimezone
 
             return;
         }
+    }
      
-     /**
-     * @return mixed
-     */
+    /**
+    * @return mixed
+    */
     public function getFromLookup()
     {
         $result = null;
