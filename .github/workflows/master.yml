@@ -1,4 +1,4 @@
-name: Lint & Tests QA
+name: Master
 
 on:
   push:
