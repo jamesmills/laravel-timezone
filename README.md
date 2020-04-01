@@ -2,8 +2,9 @@
 
 [![Packagist](https://img.shields.io/packagist/v/jamesmills/laravel-timezone.svg?style=for-the-badge)](https://packagist.org/packages/jamesmills/laravel-timezone)
 ![Packagist](https://img.shields.io/packagist/dt/jamesmills/laravel-timezone.svg?style=for-the-badge)
-[![Packagist](https://img.shields.io/packagist/l/jamesmills/laravel-timezone.svg?style=for-the-badge)]()
+![Packagist](https://img.shields.io/packagist/l/jamesmills/laravel-timezone.svg?style=for-the-badge)
 [![Buy us a tree](https://img.shields.io/badge/Treeware-%F0%9F%8C%B3-lightgreen?style=for-the-badge)](https://plant.treeware.earth/jamesmills/laravel-timezone)
+[![Treeware (Trees)](https://img.shields.io/treeware/trees/jamesmills/laravel-timezone?style=for-the-badge)](https://plant.treeware.earth/jamesmills/laravel-timezone)
 
 An easy way to set a timezone for a user in your application and then show date/times to them in their local timezone.
 
