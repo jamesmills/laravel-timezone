@@ -70,5 +70,10 @@ class LaravelTimezoneServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind('timezone', Timezone::class);
+
+        $this->mergeConfigFrom(
+            __DIR__ . '/config/timezone.php',
+            'timezone'
+        );
     }
 }
