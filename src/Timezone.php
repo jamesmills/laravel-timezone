@@ -48,7 +48,7 @@ class Timezone
      * @param  Carbon  $date
      * @return string
      */
-    public function formatTimezone(Carbon $date) : string
+    private function formatTimezone(Carbon $date) : string
     {
         $timezone = $date->format('e');
         $parts = explode('/', $timezone);

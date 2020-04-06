@@ -36,7 +36,7 @@ class LaravelTimezoneServiceProvider extends ServiceProvider
         AliasLoader::getInstance()->alias('Timezone', \JamesMills\LaravelTimezone\Facades\Timezone::class);
 
         // Register an event listener
-        Event::listen(\Illuminate\Auth\Events\Login::class, UpdateUsersTimezone::class);
+        $this->registerEventListener();
 
         // Allow config publish
         $this->publishes([
@@ -75,5 +75,18 @@ class LaravelTimezoneServiceProvider extends ServiceProvider
             __DIR__ . '/config/timezone.php',
             'timezone'
         );
+    }
+
+    /**
+     *
+     */
+    private function registerEventListener(): void
+    {
+        $events = [
+            \Illuminate\Auth\Events\Login::class,
+            \Laravel\Passport\Events\AccessTokenCreated::class,
+        ];
+
+        Event::listen($events, UpdateUsersTimezone::class);
     }
 }
