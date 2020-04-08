@@ -18,9 +18,9 @@ class UpdateUsersTimezone
         $ip = $this->getFromLookup();
         $geoip_info = geoip()->getLocation($ip);
 
-        if (auth()->user()->timezone != $geoip_info['timezone']) {
-            if (config('timezone.overwrite') == true || auth()->user()->timezone == null) {
-                $user = auth()->user();
+        $user = auth()->user();
+        if ($user->timezone != $geoip_info['timezone']) {
+            if (config('timezone.overwrite') == true || $user->timezone == null) {
                 $user->timezone = $geoip_info['timezone'];
                 $user->save();
 
@@ -70,7 +70,7 @@ class UpdateUsersTimezone
             return;
         }
     }
-     
+
     /**
     * @return mixed
     */
