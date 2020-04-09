@@ -20,7 +20,7 @@ class UpdateUsersTimezone
 
         $user = auth()->user();
         if ($user->timezone != $geoip_info['timezone']) {
-            if (config('timezone.overwrite') == true || $user->timezone == null) {
+            if (config('timezone.overwrite') == true) {
                 $user->timezone = $geoip_info['timezone'];
                 $user->save();
 
