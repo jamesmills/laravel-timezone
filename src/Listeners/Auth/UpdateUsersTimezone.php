@@ -3,6 +3,9 @@
 namespace JamesMills\LaravelTimezone\Listeners\Auth;
 
 use Illuminate\Auth\Events\Login;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Passport\Events\AccessTokenCreated;
+use Torann\GeoIP\Location;
 
 class UpdateUsersTimezone
 {
@@ -10,15 +13,43 @@ class UpdateUsersTimezone
     /**
      * Handle the event.
      *
-     * @param  Login $event
      * @return void
      */
-    public function handle(Login $event)
+    public function handle($event)
     {
+        $user = null;
+
+        /**
+         * If the event is AccessTokenCreated,
+         * we logged the user and return,
+         * stopping the execution.
+         *
+         * The Auth::loginUsingId dispatches a Login event,
+         * making this listener be called again.
+         */
+        if ($event instanceof AccessTokenCreated) {
+            Auth::loginUsingId($event->userId);
+
+            return;
+        }
+
+        /**
+         * If the event is Login, we get the user from the web guard.
+         */
+        if ($event instanceof Login) {
+            $user = Auth::user();
+        }
+
+        /**
+         * If no user is found, we just return. Nothing to do here.
+         */
+        if (is_null($user)) {
+            return;
+        }
+
         $ip = $this->getFromLookup();
         $geoip_info = geoip()->getLocation($ip);
 
-        $user = auth()->user();
         if ($user->timezone != $geoip_info['timezone']) {
             if (config('timezone.overwrite') == true || $user->timezone == null) {
                 $user->timezone = $geoip_info['timezone'];
@@ -30,9 +61,9 @@ class UpdateUsersTimezone
     }
 
     /**
-     * @param  \Torann\GeoIP\Location  $geoip_info
+     * @param  Location  $geoip_info
      */
-    public function notify(\Torann\GeoIP\Location $geoip_info)
+    private function notify(Location $geoip_info)
     {
         if (config('timezone.flash') == 'off') {
             return;
@@ -74,7 +105,7 @@ class UpdateUsersTimezone
     /**
     * @return mixed
     */
-    public function getFromLookup()
+    private function getFromLookup()
     {
         $result = null;
 
@@ -98,7 +129,7 @@ class UpdateUsersTimezone
      * @param $keys
      * @return string|null
      */
-    public function lookup($type, $keys)
+    private function lookup($type, $keys)
     {
         $value = null;
 
