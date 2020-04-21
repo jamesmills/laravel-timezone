@@ -88,6 +88,102 @@ And with custom formatting
 // 2018-07-04 3:32 New York, America
 ```
 
+### Using models casting class
+
+#### Basic usage
+
+```
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+use JamesMills\LaravelTimezone\Casts\Timezone;
+
+class Foo extends Model
+{
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'created_at' => Timezone::class,
+    ];
+}
+```
+
+#### Advanced usage
+
+##### Custom format
+
+```
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+use JamesMills\LaravelTimezone\Casts\Timezone;
+
+class Foo extends Model
+{
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'created_at' => Timezone::class.':Y-m-d H:i:s',
+    ];
+}
+```
+
+##### Return the timezone as a string passing along the format.
+
+```
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+use JamesMills\LaravelTimezone\Casts\Timezone;
+
+class Foo extends Model
+{
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'created_at' => Timezone::class.':d/m/Y H:i:s,true',
+    ];
+}
+```
+
+##### Return the timezone as a string using the default format.
+
+```
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+use JamesMills\LaravelTimezone\Casts\Timezone;
+
+class Foo extends Model
+{
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'created_at' => Timezone::class.':null,true',
+    ];
+}
+```
+
 ### Saving the users input to the database in UTC
 
 This will take a date/time, set it to the users timezone then return it as UTC in a Carbon instance.
