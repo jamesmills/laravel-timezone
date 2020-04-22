@@ -11,7 +11,7 @@ services:
 
   ObjectCalisthenics\Sniffs\NamingConventions\ElementNameMinimalLengthSniff:
     minLength: 3
-    allowedShortNames: ["i", "id", "to", "up"]
+    allowedShortNames: ["i", "id", "to", "up", "ip"]
 
   ObjectCalisthenics\Sniffs\Files\ClassTraitAndInterfaceLengthSniff:
     maxLength: 300
