@@ -9,7 +9,6 @@ use Torann\GeoIP\Location;
 
 class UpdateUsersTimezone
 {
-
     /**
      * Handle the event.
      *
@@ -50,9 +49,9 @@ class UpdateUsersTimezone
         $ip = $this->getFromLookup();
         $geoip_info = geoip()->getLocation($ip);
 
-        if ($user->timezone != $geoip_info['timezone']) {
-            if (config('timezone.overwrite') == true || $user->timezone == null) {
-                $user->timezone = $geoip_info['timezone'];
+        if ($user->getTimezone() != $geoip_info['timezone']) {
+            if (config('timezone.overwrite') == true || $user->getTimezone() == null) {
+                $user->setTimezone($geoip_info['timezone']);
                 $user->save();
 
                 $this->notify($geoip_info);
@@ -69,7 +68,7 @@ class UpdateUsersTimezone
             return;
         }
 
-        $message = 'We have set your timezone to ' . $geoip_info['timezone'];
+        $message = 'We have set your timezone to '.$geoip_info['timezone'];
 
         if (config('timezone.flash') == 'laravel') {
             request()->session()->flash('success', $message);
@@ -103,8 +102,8 @@ class UpdateUsersTimezone
     }
 
     /**
-    * @return mixed
-    */
+     * @return string|null
+     */
     private function getFromLookup()
     {
         $result = null;
@@ -134,7 +133,7 @@ class UpdateUsersTimezone
         $value = null;
 
         foreach ($keys as $key) {
-            if (!request()->$type->has($key)) {
+            if (! request()->$type->has($key)) {
                 continue;
             }
             $value = request()->$type->get($key);

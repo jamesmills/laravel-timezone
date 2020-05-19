@@ -12,13 +12,13 @@ class Timezone
      * @param  bool  $format_timezone
      * @return string
      */
-    public function convertToLocal(?Carbon $date, $format = null, $format_timezone = false) : string
+    public function convertToLocal(?Carbon $date, $format = null, $format_timezone = false): string
     {
         if (is_null($date)) {
             return 'Empty';
         }
 
-        $timezone = (auth()->user()->timezone) ?? config('app.timezone');
+        $timezone = (auth()->user()->getTimezone()) ?? config('app.timezone');
 
         $date->setTimezone($timezone);
 
@@ -29,7 +29,7 @@ class Timezone
         $formatted_date_time = $date->format($format);
 
         if ($format_timezone) {
-            return $formatted_date_time . ' ' . $this->formatTimezone($date);
+            return $formatted_date_time.' '.$this->formatTimezone($date);
         }
 
         return $formatted_date_time;
@@ -39,22 +39,22 @@ class Timezone
      * @param $date
      * @return Carbon
      */
-    public function convertFromLocal($date) : Carbon
+    public function convertFromLocal($date): Carbon
     {
-        return Carbon::parse($date, auth()->user()->timezone)->setTimezone('UTC');
+        return Carbon::parse($date, auth()->user()->getTimezone())->setTimezone('UTC');
     }
 
     /**
      * @param  Carbon  $date
      * @return string
      */
-    private function formatTimezone(Carbon $date) : string
+    private function formatTimezone(Carbon $date): string
     {
         $timezone = $date->format('e');
         $parts = explode('/', $timezone);
 
         if (count($parts) > 1) {
-            return str_replace('_', ' ', $parts[1]) . ', ' . $parts[0];
+            return str_replace('_', ' ', $parts[1]).', '.$parts[0];
         }
 
         return str_replace('_', ' ', $parts[0]);
