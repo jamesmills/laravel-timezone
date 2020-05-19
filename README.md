@@ -1,12 +1,10 @@
 # Laravel Timezone
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/jamesmills/laravel-timezone.svg?style=flat-square)](https://packagist.org/packages/jamesmills/laravel-timezone)
-[![Total Downloads](https://img.shields.io/packagist/dt/jamesmills/laravel-timezone.svg?style=flat-square)](https://packagist.org/packages/jamesmills/laravel-timezone)
-[![Licence](https://img.shields.io/packagist/l/jamesmills/laravel-timezone.svg?style=flat-square)](https://packagist.org/packages/jamesmills/laravel-timezone)
-[![Quality Score](https://img.shields.io/scrutinizer/g/jamesmills/laravel-timezone.svg?style=flat-square)](https://scrutinizer-ci.com/g/jamesmills/laravel-timezone)
-[![StyleCI](https://github.styleci.io/repos/142882574/shield?branch=master)](https://github.styleci.io/repos/142882574)
-[![Buy us a tree](https://img.shields.io/badge/treeware-%F0%9F%8C%B3-lightgreen?style=flat-square)](https://plant.treeware.earth/jamesmills/laravel-timezone)
-[![Treeware (Trees)](https://img.shields.io/treeware/trees/jamesmills/laravel-timezone?style=flat-square)](https://plant.treeware.earth/jamesmills/laravel-timezone)
+[![Packagist](https://img.shields.io/packagist/v/jamesmills/laravel-timezone.svg?style=for-the-badge)](https://packagist.org/packages/jamesmills/laravel-timezone)
+![Packagist](https://img.shields.io/packagist/dt/jamesmills/laravel-timezone.svg?style=for-the-badge)
+![Packagist](https://img.shields.io/packagist/l/jamesmills/laravel-timezone.svg?style=for-the-badge)
+[![Buy us a tree](https://img.shields.io/badge/Treeware-%F0%9F%8C%B3-lightgreen?style=for-the-badge)](https://plant.treeware.earth/jamesmills/laravel-timezone)
+[![Treeware (Trees)](https://img.shields.io/treeware/trees/jamesmills/laravel-timezone?style=for-the-badge)](https://plant.treeware.earth/jamesmills/laravel-timezone)
 
 An easy way to set a timezone for a user in your application and then show date/times to them in their local timezone.
 
@@ -88,6 +86,31 @@ And with custom formatting
 @displayDate($post->created_at, 'Y-m-d g:i', true)
 
 // 2018-07-04 3:32 New York, America
+```
+
+### Using models casting class
+
+#### Basic usage
+
+```
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+use JamesMills\LaravelTimezone\Casts\Timezone;
+
+class Foo extends Model
+{
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'created_at' => Timezone::class,
+    ];
+}
 ```
 
 ### Saving the users input to the database in UTC
