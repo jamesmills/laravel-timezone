@@ -1,0 +1,32 @@
+services:
+  ObjectCalisthenics\Sniffs\Metrics\MaxNestingLevelSniff:
+    maxNestingLevel: 2
+
+  ObjectCalisthenics\Sniffs\ControlStructures\NoElseSniff: ~
+
+  ObjectCalisthenics\Sniffs\CodeAnalysis\OneObjectOperatorPerLineSniff:
+    variablesHoldingAFluentInterface: ["$queryBuilder", "$containerBuilder", "$request"]
+    methodsStartingAFluentInterface: ["createQueryBuilder", "make", "command", "skip"]
+    methodsEndingAFluentInterface: ["execute", "getQuery"]
+
+  ObjectCalisthenics\Sniffs\NamingConventions\ElementNameMinimalLengthSniff:
+    minLength: 3
+    allowedShortNames: ["i", "id", "to", "up", "ip"]
+
+  ObjectCalisthenics\Sniffs\Files\ClassTraitAndInterfaceLengthSniff:
+    maxLength: 300
+
+  ObjectCalisthenics\Sniffs\Files\FunctionLengthSniff:
+    maxLength: 40
+
+  ObjectCalisthenics\Sniffs\Metrics\PropertyPerClassLimitSniff:
+    maxCount: 10
+
+  ObjectCalisthenics\Sniffs\Metrics\MethodPerClassLimitSniff:
+    maxCount: 15
+
+#  ObjectCalisthenics\Sniffs\Classes\ForbiddenPublicPropertySniff: ~
+
+  ObjectCalisthenics\Sniffs\NamingConventions\NoSetterSniff:
+    allowedClasses:
+      - '*\DataObject'

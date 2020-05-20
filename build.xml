@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Laravel Timezone" default="build" basedir=".">
+    <property name="project.bindir" value="${project.basedir}/vendor/bin" />
+    <property name="project.builddir" value="${project.basedir}/build" />
+
+    <target name="build">
+        <phingcall target="lint" />
+        <phingcall target="tests" />
+		<phingcall target="style" />
+		<phingcall target="calisthenics" />
+    </target>
+
+    <target name="lint">
+        <phplint haltonfailure="true">
+            <fileset dir="${project.basedir}/src">
+                <include name="**/*.php" />
+            </fileset>
+            <fileset dir="${project.basedir}/tests">
+                <include name="**/*.php" />
+            </fileset>
+        </phplint>
+    </target>
+
+    <target name="tests">
+        <exec command="${project.bindir}/phpunit --testsuite Unit" passthru="true" checkreturn="true" />
+    </target>
+
+    <target name="style">
+        <exec executable="${project.bindir}/phpcs" passthru="true" checkreturn="true" >
+            <arg value="--standard=PSR2" />
+            <arg value="${project.basedir}/src" />
+            <arg value="${project.basedir}/tests" />
+        </exec>
+    </target>
+
+    <target name="calisthenics">
+        <exec executable="${project.bindir}/ecs" passthru="true" checkreturn="true" >
+            <arg value="check" />
+            <arg value="${project.basedir}/src" />
+            <arg value="${project.basedir}/tests" />
+        </exec>
+    </target>
+
+    <target name="qa" depends="prepare-ci">
+        <phingcall target="tests-ci" />
+        <phingcall target="loc-ci" />
+        <phingcall target="dependencies-ci" />
+        <phingcall target="phpmd-ci" />
+        <phingcall target="style-ci" />
+        <phingcall target="duplications-ci" />
+    </target>
+
+    <target name="prepare-ci">
+        <delete dir="${project.builddir}/logs" />
+        <delete dir="${project.builddir}/coverage" />
+        <delete dir="${project.builddir}/images" />
+
+        <mkdir dir="${project.builddir}/logs" mode="0777" />
+        <mkdir dir="${project.builddir}/coverage" mode="0777" />
+        <mkdir dir="${project.builddir}/images" mode="0777" />
+    </target>
+
+    <target name="tests-ci">
+        <exec executable="${project.bindir}/phpunit" passthru="true">
+            <arg value="--coverage-html" />
+            <arg value="${project.builddir}/coverage" />
+            <arg value="--coverage-clover" />
+            <arg value="${project.builddir}/logs/clover.xml" />
+            <arg value="--log-junit" />
+            <arg value="${project.builddir}/logs/junit.xml" />
+        </exec>
+    </target>
+
+    <target name="loc-ci">
+        <exec executable="${project.bindir}/phploc" passthru="true">
+            <arg value="--count-tests" />
+            <arg value="--log-csv" />
+            <arg value="${project.builddir}/logs/phploc.csv" />
+            <arg value="--log-xml" />
+            <arg value="${project.builddir}/logs/phploc.xml" />
+            <arg value="${project.basedir}/src" />
+            <arg value="${project.basedir}/tests" />
+        </exec>
+    </target>
+
+    <target name="dependencies-ci">
+        <exec executable="${project.bindir}/pdepend" passthru="true">
+            <arg value="--jdepend-xml=${project.builddir}/logs/jdepend.xml" />
+            <arg value="--jdepend-chart=${project.builddir}/images/dependencies.svg" />
+            <arg value="--overview-pyramid=${project.builddir}/images/overview-pyramid.svg" />
+            <arg path="${project.basedir}/src" />
+        </exec>
+    </target>
+
+    <target name="phpmd-ci">
+        <exec executable="${project.bindir}/phpmd" passthru="true">
+            <arg path="${project.basedir}/src" />
+            <arg value="xml" />
+            <arg value="cleancode,codesize,controversial,design,naming,unusedcode" />
+            <arg value="--reportfile" />
+            <arg value="${project.builddir}/logs/pmd.xml" />
+        </exec>
+    </target>
+
+    <target name="style-ci">
+        <exec executable="${project.bindir}/phpcs" passthru="true">
+            <arg value="--report=checkstyle" />
+            <arg value="--report-file=${project.builddir}/logs/checkstyle.xml" />
+            <arg value="--standard=PSR2" />
+            <arg value="${project.basedir}/src" />
+            <arg value="${project.basedir}/tests" />
+        </exec>
+    </target>
+
+    <target name="duplications-ci">
+        <exec executable="${project.bindir}/phpcpd" passthru="true">
+            <arg value="--log-pmd" />
+            <arg value="${project.builddir}/logs/pmd-cpd.xml" />
+            <arg path="${project.basedir}/src" />
+        </exec>
+    </target>
+</project>
