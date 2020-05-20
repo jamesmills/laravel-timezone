@@ -29,7 +29,6 @@ class UpdateUsersTimezone
          */
         if ($event instanceof AccessTokenCreated) {
             Auth::loginUsingId($event->userId);
-
             return;
         }
 
@@ -54,7 +53,6 @@ class UpdateUsersTimezone
             if (config('timezone.overwrite') == true || $user->timezone == null) {
                 $user->timezone = $geoip_info['timezone'];
                 $user->save();
-
                 $this->notify($geoip_info);
             }
         }
