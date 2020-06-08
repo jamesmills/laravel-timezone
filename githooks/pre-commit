@@ -1,0 +1,4 @@
+#!/bin/sh
+
+echo 'Phing'
+./vendor/bin/phing || exit 1
