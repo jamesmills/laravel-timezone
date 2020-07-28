@@ -46,12 +46,6 @@ Add this to your user(or any authenticate) migration
 $table->string('timezone')
 ```
 
-Run the database migrations. This will add a `timezone` column to your `users` table.
-
-```
-php artisan migrate
-```
-
 ## Examples
 
 ### Showing date/time to the user in their timezone
