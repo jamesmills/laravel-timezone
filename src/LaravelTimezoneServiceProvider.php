@@ -17,7 +17,6 @@ class LaravelTimezoneServiceProvider extends ServiceProvider
      */
     protected $defer = false;
 
-
     /**
      * Perform post-registration booting of services.
      *
