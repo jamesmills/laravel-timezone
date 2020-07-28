@@ -16,8 +16,7 @@
         "php": ">=7.1",
         "Illuminate/auth": "5.6.*|5.7.*|5.8.*|^6|^7",
         "Illuminate/support": "5.6.*|5.7.*|5.8.*|^6|^7",
-        "torann/geoip": "^1.0",
-        "nesbot/carbon": "^1.0|^2.0"
+        "torann/geoip": "^1.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.12",
