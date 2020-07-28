@@ -3,7 +3,6 @@
 namespace JamesMills\LaravelTimezone\Test\Helpers\Models;
 
 /**
- * Class User
  *
  * @property string $email
  * @property string $timezone

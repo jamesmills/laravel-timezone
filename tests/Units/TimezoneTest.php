@@ -5,6 +5,7 @@ namespace JamesMills\LaravelTimezone\Test\Units;
 use Illuminate\Support\Carbon;
 use JamesMills\LaravelTimezone\Facades\TimezoneFacade;
 use JamesMills\LaravelTimezone\Test\TestCase;
+use Timezone;
 
 class TimezoneTest extends TestCase
 {
@@ -19,7 +20,7 @@ class TimezoneTest extends TestCase
             'UTC'
         );
 
-        $converted = \Timezone::convertToLocal($time, 'm-d-Y H:i');
+        $converted = Timezone::convertToLocal($time, 'm-d-Y H:i');
 
         $this->assertEquals('12-31-2019 19:00', $converted);
     }
@@ -56,4 +57,5 @@ class TimezoneTest extends TestCase
         // test UTC to Asia/Manila UTC +8
         $this->assertEquals('31st December 2019 7:00:pm', $converted);
     }
+
 }

@@ -73,9 +73,6 @@ class LaravelTimezoneServiceProvider extends ServiceProvider
         );
     }
 
-    /**
-     *
-     */
     private function registerEventListener(): void
     {
         $events = [

@@ -10,8 +10,8 @@ use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
 {
-protected const TIMEZONE = 'America/New_York';
-        /** @var User */
+    protected const TIMEZONE = 'America/New_York';
+    /** @var User */
     protected $user; # UTC -5
 
     protected function setUp(): void
