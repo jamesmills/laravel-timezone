@@ -10,7 +10,6 @@ use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
 {
-
     /** @var User */
     protected $user;
 
@@ -32,6 +31,13 @@ abstract class TestCase extends Orchestra
         ];
     }
 
+    protected function getPackageAliases($app)
+    {
+        return [
+            'Timezone' => TimezoneFacade::class,
+        ];
+    }
+
     protected function getEnvironmentSetUp($app)
     {
         // Setup default database to use sqlite :memory:
@@ -44,13 +50,6 @@ abstract class TestCase extends Orchestra
                 'prefix' => '',
             ]
         );
-    }
-
-    protected function getPackageAliases($app)
-    {
-        return [
-            'Timezone' => TimezoneFacade::class,
-        ];
     }
 
     protected function getApplicationTimezone($app)
