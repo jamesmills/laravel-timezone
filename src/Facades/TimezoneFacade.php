@@ -5,8 +5,6 @@ namespace JamesMills\LaravelTimezone\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * Class Timezone
- *
  * @mixin \JamesMills\LaravelTimezone\Timezone
  */
 class TimezoneFacade extends Facade

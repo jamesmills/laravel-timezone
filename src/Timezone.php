@@ -10,9 +10,10 @@ final class Timezone
      * @param  Carbon|null  $date
      * @param  null  $format
      * @param  bool  $format_timezone
+     *
      * @return string
      */
-    public static function convertToLocal(?Carbon $date, $format = null, $format_timezone = false) : string
+    public static function convertToLocal(?Carbon $date, $format = null, $format_timezone = false): string
     {
         if (is_null($date)) {
             return 'Empty';
@@ -29,7 +30,7 @@ final class Timezone
         $formatted_date_time = $date->format($format);
 
         if ($format_timezone) {
-            return $formatted_date_time . ' ' . self::formatTimezone($date);
+            return $formatted_date_time.' '.self::formatTimezone($date);
         }
 
         return $formatted_date_time;
@@ -37,24 +38,26 @@ final class Timezone
 
     /**
      * @param $date
+     *
      * @return Carbon
      */
-    public static function convertFromLocal($date) : Carbon
+    public static function convertFromLocal($date): Carbon
     {
         return Carbon::parse($date, app('auth')->user()->timezone)->setTimezone(config('app.timezone'));
     }
 
     /**
      * @param  Carbon  $date
+     *
      * @return string
      */
-    private static function formatTimezone(Carbon $date) : string
+    private static function formatTimezone(Carbon $date): string
     {
         $timezone = $date->format('e');
         $parts = explode('/', $timezone);
 
         if (count($parts) > 1) {
-            return str_replace('_', ' ', $parts[1]) . ', ' . $parts[0];
+            return str_replace('_', ' ', $parts[1]).', '.$parts[0];
         }
 
         return str_replace('_', ' ', $parts[0]);
