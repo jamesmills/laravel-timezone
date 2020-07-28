@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Facade;
  *
  * @mixin \JamesMills\LaravelTimezone\Timezone
  */
-class Timezone extends Facade
+class TimezoneFacade extends Facade
 {
     public static function getFacadeAccessor()
     {

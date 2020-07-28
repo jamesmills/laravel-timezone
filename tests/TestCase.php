@@ -3,7 +3,7 @@
 namespace JamesMills\LaravelTimezone\Test;
 
 use Illuminate\Database\Schema\Blueprint;
-use JamesMills\LaravelTimezone\Facades\Timezone as TimezoneFacade;
+use JamesMills\LaravelTimezone\Facades\TimezoneFacade;
 use JamesMills\LaravelTimezone\LaravelTimezoneServiceProvider;
 use JamesMills\LaravelTimezone\Test\Helpers\Models\User;
 use Orchestra\Testbench\TestCase as Orchestra;

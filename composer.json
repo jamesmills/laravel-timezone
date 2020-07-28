@@ -39,7 +39,7 @@
                 "JamesMills\\LaravelTimezone\\LaravelTimezoneServiceProvider"
             ],
             "aliases": {
-                "Timezone": "JamesMills\\LaravelTimezone\\Facades\\Timezone"
+                "Timezone": "JamesMills\\LaravelTimezone\\Facades\\TimezoneFacade"
             }
         }
     },
