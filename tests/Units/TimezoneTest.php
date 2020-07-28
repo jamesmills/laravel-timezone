@@ -21,8 +21,7 @@ class TimezoneTest extends TestCase
 
         $converted = \Timezone::convertToLocal($time, 'm-d-Y H:i');
 
-        // test UTC to Asia/Manila UTC +8
-        $this->assertEquals('01-01-2020 08:00', $converted);
+        $this->assertEquals('12-31-2019 19:00', $converted);
     }
 
     /** @test */
@@ -38,8 +37,7 @@ class TimezoneTest extends TestCase
 
         $converted = TimezoneFacade::convertToLocal($time, 'm-d-Y H:i', true);
 
-        // test UTC to Asia/Manila UTC +8
-        $this->assertEquals('01-01-2020 08:00 Manila, Asia', $converted);
+        $this->assertEquals('12-31-2019 19:00 New York, America', $converted);
     }
 
     /** @test */
@@ -56,6 +54,6 @@ class TimezoneTest extends TestCase
         $converted = TimezoneFacade::convertToLocal($time, null);
 
         // test UTC to Asia/Manila UTC +8
-        $this->assertEquals('1st January 2020 8:00:am', $converted);
+        $this->assertEquals('31st December 2019 7:00:pm', $converted);
     }
 }

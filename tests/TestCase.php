@@ -12,6 +12,7 @@ abstract class TestCase extends Orchestra
 {
     /** @var User */
     protected $user;
+    protected const TIMEZONE = 'America/New_York'; # UTC -4
 
     protected function setUp(): void
     {
@@ -72,7 +73,7 @@ abstract class TestCase extends Orchestra
         $this->user = User::create(
             [
                 'email' => 'test@mail.com',
-                'timezone' => 'Asia/Manila',
+                'timezone' => self::TIMEZONE,
             ]
         );
     }
