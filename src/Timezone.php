@@ -18,7 +18,7 @@ class Timezone
             return 'Empty';
         }
 
-        $timezone = (auth()->user()->timezone) ?? config('app.timezone');
+        $timezone = (app('auth')->user()->timezone) ?? config('app.timezone');
 
         $date->setTimezone($timezone);
 
@@ -41,7 +41,7 @@ class Timezone
      */
     public function convertFromLocal($date) : Carbon
     {
-        return Carbon::parse($date, auth()->user()->timezone)->setTimezone('UTC');
+        return Carbon::parse($date, app('auth')->user()->timezone)->setTimezone('UTC');
     }
 
     /**

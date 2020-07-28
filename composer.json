@@ -14,30 +14,38 @@
     ],
     "require": {
         "php": ">=7.1",
-        "laravel/framework": "5.6.* || 5.7.* || 5.8.* || ^6 || ^7",
+        "Illuminate/auth": "5.6.*|5.7.*|5.8.*|^6|^7",
+        "Illuminate/support": "5.6.*|5.7.*|5.8.*|^6|^7",
         "torann/geoip": "^1.0",
-        "nesbot/carbon": "^1.0 || ^2.0"
+        "nesbot/carbon": "^1.0|^2.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.12",
+        "orchestra/testbench": "^3.6|^3.7|^3.8|^4.0|^5.0"
     },
     "autoload": {
         "psr-4": {
-            "JamesMills\\LaravelTimezone\\": "src/",
-            "JamesMills\\LaravelTimezone\\Database\\Seeds\\": "database/seeds/"
-
+            "JamesMills\\LaravelTimezone\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JamesMills\\LaravelTimezone\\Test\\": "tests"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
                 "JamesMills\\LaravelTimezone\\LaravelTimezoneServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "Timezone": "JamesMills\\LaravelTimezone\\Facades\\Timezone"
+            }
         }
-    },
-    "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.12"
     },
     "scripts": {
         "pre-package-install": [
-            "@php artisan config:clear"
+
         ]
     }
 }

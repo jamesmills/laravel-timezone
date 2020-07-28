@@ -32,9 +32,6 @@ class LaravelTimezoneServiceProvider extends ServiceProvider
             ], 'migrations');
         }
 
-        // Register the Timezone alias
-        AliasLoader::getInstance()->alias('Timezone', \JamesMills\LaravelTimezone\Facades\Timezone::class);
-
         // Register an event listener
         $this->registerEventListener();
 
