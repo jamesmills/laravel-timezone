@@ -2,7 +2,6 @@
 
 namespace JamesMills\LaravelTimezone;
 
-use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
@@ -59,8 +58,6 @@ class LaravelTimezoneServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('timezone', Timezone::class);
-
         $this->mergeConfigFrom(
             __DIR__ . '/config/timezone.php',
             'timezone'
@@ -74,7 +71,6 @@ class LaravelTimezoneServiceProvider extends ServiceProvider
     {
         $events = [
             \Illuminate\Auth\Events\Login::class,
-            \Laravel\Passport\Events\AccessTokenCreated::class,
         ];
 
         Event::listen($events, UpdateUsersTimezone::class);

@@ -3,8 +3,6 @@
 namespace JamesMills\LaravelTimezone\Listeners\Auth;
 
 use Illuminate\Auth\Events\Login;
-use Illuminate\Support\Facades\Auth;
-use Laravel\Passport\Events\AccessTokenCreated;
 use Torann\GeoIP\Location;
 
 class UpdateUsersTimezone
@@ -20,24 +18,10 @@ class UpdateUsersTimezone
         $user = null;
 
         /**
-         * If the event is AccessTokenCreated,
-         * we logged the user and return,
-         * stopping the execution.
-         *
-         * The Auth::loginUsingId dispatches a Login event,
-         * making this listener be called again.
-         */
-        if ($event instanceof AccessTokenCreated) {
-            Auth::loginUsingId($event->userId);
-
-            return;
-        }
-
-        /**
          * If the event is Login, we get the user from the web guard.
          */
         if ($event instanceof Login) {
-            $user = Auth::user();
+            $user = app('auth')->user();
         }
 
         /**
