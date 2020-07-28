@@ -50,6 +50,7 @@ abstract class TestCase extends Orchestra
             'Timezone' => TimezoneFacade::class,
         ];
     }
+
     protected function getApplicationTimezone($app)
     {
         return 'UTC';
