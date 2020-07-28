@@ -12,7 +12,7 @@ abstract class TestCase extends Orchestra
 {
     /** @var User */
     protected $user;
-    protected const TIMEZONE = 'America/New_York'; # UTC -4
+    protected const TIMEZONE = 'America/New_York'; # UTC -5
 
     protected function setUp(): void
     {
