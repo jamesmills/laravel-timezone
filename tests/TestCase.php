@@ -69,7 +69,7 @@ abstract class TestCase extends Orchestra
 
         $this->user = User::create(
             [
-                'email' => 'test2@user2.com',
+                'email' => 'test@mail.com',
                 'timezone' => 'Asia/Manila',
             ]
         );
