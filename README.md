@@ -43,7 +43,7 @@ composer require jamesmills/laravel-timezone
 Add this to your user(or any authenticate) migration
  
 ```
-$table->string('timezone')
+$table->string('timezone')->nullable();
 ```
 
 ## Examples
