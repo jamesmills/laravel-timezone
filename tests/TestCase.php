@@ -4,6 +4,7 @@ namespace JamesMills\LaravelTimezone\Test;
 
 use Illuminate\Database\Schema\Blueprint;
 use JamesMills\LaravelTimezone\Facades\Timezone as TimezoneFacade;
+use JamesMills\LaravelTimezone\LaravelTimezoneServiceProvider;
 use JamesMills\LaravelTimezone\Test\Helpers\Models\User;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -27,6 +28,7 @@ abstract class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
+            LaravelTimezoneServiceProvider::class,
         ];
     }
 

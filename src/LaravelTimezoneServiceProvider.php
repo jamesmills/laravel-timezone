@@ -24,12 +24,18 @@ class LaravelTimezoneServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // for lumen
+        $configPath =function ($path = '')
+        {
+            return app()->basePath() . '/config' . ($path ? '/' . $path : $path);
+        };
+
         // Register an event listener
         $this->registerEventListener();
 
         // Allow config publish
         $this->publishes([
-            __DIR__ . '/config/timezone.php' => config_path('timezone.php'),
+            __DIR__ . '/config/timezone.php' => $configPath('timezone.php'),
         ], 'config');
 
         // Register a blade directive to show user date/time in their timezone
