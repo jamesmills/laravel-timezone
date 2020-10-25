@@ -36,6 +36,25 @@ class Timezone
     }
 
     /**
+     * @param  Carbon|null  $date
+     * @return string
+     */
+    public function convertToLocalDiffForHumans(?Carbon $date) : string
+    {
+        if (is_null($date)) {
+            return 'Empty';
+        }
+
+        $timezone = (auth()->user()->timezone) ?? config('app.timezone');
+
+        $date->setTimezone($timezone);
+
+        $diffTime = Carbon::parse($date)->diffForHumans();
+
+        return $diffTime;
+    }
+
+    /**
      * @param $date
      * @return Carbon
      */
