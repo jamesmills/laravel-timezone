@@ -103,8 +103,8 @@ class UpdateUsersTimezone
     }
 
     /**
-    * @return mixed
-    */
+     * @return mixed
+     */
     private function getFromLookup()
     {
         $result = null;
@@ -134,7 +134,7 @@ class UpdateUsersTimezone
         $value = null;
 
         foreach ($keys as $key) {
-            if (!request()->$type->has($key)) {
+            if (! request()->$type->has($key)) {
                 continue;
             }
             $value = request()->$type->get($key);
