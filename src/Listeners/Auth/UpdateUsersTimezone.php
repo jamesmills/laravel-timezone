@@ -69,7 +69,7 @@ class UpdateUsersTimezone
             return;
         }
 
-        $message = sprintf(config('timezone.message', 'We have set your timezone to '), $geoip_info['timezone']);
+        $message = sprintf(config('timezone.message', 'We have set your timezone to %s'), $geoip_info['timezone']);
 
         if (config('timezone.flash') == 'laravel') {
             request()->session()->flash('success', $message);
