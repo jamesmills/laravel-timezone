@@ -2,12 +2,12 @@
 
 namespace JamesMills\LaravelTimezone;
 
-use \Carbon\Carbon;
+use Carbon\Carbon;
 
 class Timezone
 {
     /**
-     * @param  Carbon|null  $date
+     * @param  Carbon\Carbon|null  $date
      * @param  null  $format
      * @param  bool  $format_timezone
      * @return string
@@ -37,7 +37,7 @@ class Timezone
 
     /**
      * @param $date
-     * @return Carbon
+     * @return Carbon\Carbon
      */
     public function convertFromLocal($date) : Carbon
     {
@@ -45,7 +45,7 @@ class Timezone
     }
 
     /**
-     * @param  Carbon  $date
+     * @param  Carbon\Carbon  $date
      * @return string
      */
     private function formatTimezone(Carbon $date) : string
