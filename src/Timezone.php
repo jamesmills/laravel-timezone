@@ -2,7 +2,7 @@
 
 namespace JamesMills\LaravelTimezone;
 
-use Carbon\Carbon;
+use \Carbon\Carbon;
 
 class Timezone
 {
