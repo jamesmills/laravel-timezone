@@ -9,7 +9,7 @@ return [
     |
     | Here you may configure if to use the laracasts/flash package for flash
     | notifications when a users timezone is set.
-    | options [laravel, laracasts, mercuryseries, spatie, mckenziearts]
+    | options [off, laravel, laracasts, mercuryseries, spatie, mckenziearts]
     |
     */
 
