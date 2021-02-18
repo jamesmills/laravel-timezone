@@ -12,7 +12,7 @@ class Timezone
      * @param  bool  $format_timezone
      * @return string
      */
-    public function convertToLocal(?Carbon $date, $format = null, $format_timezone = false): string
+    public function convertToLocal(?Carbon $date, $format = null, $format_timezone = false, $diff_for_humans = false): string
     {
         if (is_null($date)) {
             return 'Empty';
@@ -24,6 +24,10 @@ class Timezone
 
         if (is_null($format)) {
             return $date->format(config('timezone.format'));
+        }
+
+        if ($diff_for_humans) {
+            return $date->diffForHumans();
         }
 
         $formatted_date_time = $date->format($format);
@@ -41,17 +45,7 @@ class Timezone
      */
     public function convertToLocalDiffForHumans(?Carbon $date): string
     {
-        if (is_null($date)) {
-            return 'Empty';
-        }
-
-        $timezone = (auth()->user()->timezone) ?? config('app.timezone');
-
-        $date->setTimezone($timezone);
-
-        $diffTime = Carbon::parse($date)->diffForHumans();
-
-        return $diffTime;
+        return $this->convertToLocal($date, null, false, true);
     }
 
     /**
