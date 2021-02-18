@@ -121,7 +121,7 @@ When the timezone has been set, we display a flash message, By default, is confi
 
 [mckenziearts/laravel-notify](https://github.com/mckenziearts/laravel-notify) - `'flash' => 'mckenziearts'`
 
-To override this configuration, you just need to change the `flash` property inside the configuration file `config/timezone.php` for the desired package.  
+To override this configuration, you just need to change the `flash` property inside the configuration file `config/timezone.php` for the desired package. You can disable flash messages by setting `'flash' => 'off'`.
 
 ### Overwrite existing timezones in the database
 
