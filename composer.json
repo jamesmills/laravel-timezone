@@ -13,7 +13,7 @@
         }
     ],
     "require": {
-        "php": ">=7.1",
+        "php": ">=7.2",
         "laravel/framework": "5.6.* || 5.7.* || 5.8.* || ^6 || ^7 || ^8",
         "torann/geoip": "^3.0",
         "nesbot/carbon": "^1.0 || ^2.0"
