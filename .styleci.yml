@@ -1,4 +1,4 @@
-preset: laravel
+preset: psr2
 
 disabled:
   - single_class_element_per_statement
