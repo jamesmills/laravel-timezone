@@ -33,7 +33,7 @@ class Timezone
         $formatted_date_time = $date->format($format);
 
         if ($format_timezone) {
-            return $formatted_date_time.' '.$this->formatTimezone($date);
+            return $formatted_date_time . ' ' . $this->formatTimezone($date);
         }
 
         return $formatted_date_time;
@@ -67,7 +67,7 @@ class Timezone
         $parts = explode('/', $timezone);
 
         if (count($parts) > 1) {
-            return str_replace('_', ' ', $parts[1]).', '.$parts[0];
+            return str_replace('_', ' ', $parts[1]) . ', ' . $parts[0];
         }
 
         return str_replace('_', ' ', $parts[0]);
