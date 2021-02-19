@@ -40,6 +40,25 @@ Pull in the package using Composer
 composer require jamesmills/laravel-timezone
 ```
 
+Add TimezoneModelTrait into your resource Model
+
+```
+<?php
+
+namespace App;
+
+class Foo
+{
+    use TimezoneModelTrait;
+}
+```
+
+## Database
+
+By default, this package is shipped with database migration, 
+which creates a new column `timezone` into the `users` table. 
+
+### Using Default Migrations
 Publish database migrations
  
 ```
@@ -51,6 +70,11 @@ Run the database migrations. This will add a `timezone` column to your `users` t
 ```
 php artisan migrate
 ```
+
+### Custom Data Source
+
+If you use a different data source for your timezone, 
+you can just override both methods in the `TimezoneModelTrait` on your resource model to your needs.
 
 ## Examples
 
