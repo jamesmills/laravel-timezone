@@ -69,7 +69,7 @@ class UpdateUsersTimezone
             return;
         }
 
-        $message = 'We have set your timezone to ' . $geoip_info['timezone'];
+        $message = sprintf(config('timezone.message', 'We have set your timezone to %s'), $geoip_info['timezone']);
 
         if (config('timezone.flash') == 'laravel') {
             request()->session()->flash('success', $message);
@@ -103,8 +103,8 @@ class UpdateUsersTimezone
     }
 
     /**
-    * @return mixed
-    */
+     * @return mixed
+     */
     private function getFromLookup()
     {
         $result = null;
@@ -134,7 +134,7 @@ class UpdateUsersTimezone
         $value = null;
 
         foreach ($keys as $key) {
-            if (!request()->$type->has($key)) {
+            if (! request()->$type->has($key)) {
                 continue;
             }
             $value = request()->$type->get($key);

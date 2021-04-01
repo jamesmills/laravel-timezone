@@ -135,6 +135,10 @@ By default, the date format will be `jS F Y g:i:a`. To override this configurati
 
 This lookup array configuration makes it possible to find the remote address of the user in any attribute inside the Laravel `request` helper, by any key. Having in mind when the key is found inside the attribute, that key will be used. By default, we use the `server` attribute with the key `REMOTE_ADDR`. To override this configuration, you just need to change the `lookup` property inside the configuration file `config/timezone.php` for the desired lookup.
 
+### User Message
+
+You may configure the message shown to the user when the timezone is set by changing the `message` property inside the configuration file `config/timezone.php`
+
 ### Underlying GeoIp Package
 
 If you wish to customise the underlying `torann/geoip` package you can publish the config file by using the command below.
