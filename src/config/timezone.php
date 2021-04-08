@@ -18,7 +18,7 @@ return [
     'timezone_check' => [
         /*
         |--------------------------------------------------------------------------
-        | Timezone check events
+        | Timezone Check Events
         |--------------------------------------------------------------------------
         |
         | Here you may configure which events will be listen for user timezone check.
@@ -38,7 +38,7 @@ return [
 
         /*
         |--------------------------------------------------------------------------
-        | Timezone check event listener
+        | Timezone Check Event Listener
         |--------------------------------------------------------------------------
         |
         | Here you may configure which event handler will be used for user timezone check.
@@ -81,10 +81,23 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Empty Date 
+    |--------------------------------------------------------------------------
+    |
+    | Here you may configure string to show when date is null.
+    | If null specified, string 'Empty' will be used.
+    |
+    */
+
+    'empty_date' => null,
+
+    /*
+    |--------------------------------------------------------------------------
     | Lookup Array
     |--------------------------------------------------------------------------
     |
-    | Here you may configure the lookup array whom it will be used to fetch the user remote address.
+    | Here you may configure the lookup array whom it will be used to fetch 
+    | the user remote address.
     | When a key is found inside the lookup array that key it will be used.
     |
     */
