@@ -61,6 +61,7 @@ return [
     |
     | Here you may configure if you would like to overwrite existing
     | timezones if they have been already set in the database.
+    | Note that this is default value, per-user value checked for existence first.
     | options [true, false]
     |
     */

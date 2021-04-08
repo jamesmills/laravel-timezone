@@ -4,6 +4,7 @@ namespace JamesMills\LaravelTimezone\Listeners\Auth;
 
 use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Schema;
 
 use Laravel\Passport\Events\AccessTokenCreated;
 use JamesMills\LaravelTimezone\Traits\FlashesMessage;
@@ -128,11 +129,13 @@ class UpdateUsersTimezone
         /**
          * If no user is found or it has no timezone attribute, we just return.
          */
-        if ($user === null || !property_exists($user, 'timezone')) {
+        if ($user === null || !Schema::hasColumn($user->getTable(), 'timezone')) {
             return;
         }
 
-        if ($user->timezone === null || config('timezone.overwrite', false) === true) {
+        $overwrite = $user->detect_timezone ?? config('timezone.overwrite', false);
+
+        if ($user->timezone === null || $overwrite === true) {
             $info = $this->getGeoIpTimezone($this->getFromLookup());
 
             if ($user->timezone === null || $user->timezone != $info['timezone']) {
