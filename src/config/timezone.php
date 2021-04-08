@@ -15,6 +15,45 @@ return [
 
     'flash' => 'laravel',
 
+    'timezone_check' => [
+        /*
+        |--------------------------------------------------------------------------
+        | Timezone check events
+        |--------------------------------------------------------------------------
+        |
+        | Here you may configure which events will be listen for user timezone check.
+        | If null specified, default Laravel Login and AccessTokenCreated events will be listen.
+        | This option is useful only if custom event handler for custom events specified.
+        | Examples:
+        | 1) null
+        | 2) \App\Events\MyLoginEvent::class
+        | 3) [
+        |         \App\Events\MyLoginEvent1::class,
+        |         \App\Events\MyLoginEvent2::class,
+        |    ]
+        |
+        */
+
+        'events' => null,
+
+        /*
+        |--------------------------------------------------------------------------
+        | Timezone check event listener
+        |--------------------------------------------------------------------------
+        |
+        | Here you may configure which event handler will be used for user timezone check.
+        | If null specified, package default event listener will be used.
+        | This option is useful only if you are using custom login events or want to
+        | override default event listener, e.g. RetrievesGeoIpTimezone trait.
+        | Examples:
+        | null
+        | \App\EventListeners\MyTimezoneCheckEventListener::class
+        |
+        */
+
+        'listener' => null,
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Overwrite Existing Timezone
@@ -54,9 +93,7 @@ return [
         'server' => [
             'REMOTE_ADDR',
         ],
-        'headers' => [
-
-        ],
+        'headers' => [],
     ],
 
 ];

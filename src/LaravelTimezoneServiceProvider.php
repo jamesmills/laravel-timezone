@@ -17,6 +17,16 @@ class LaravelTimezoneServiceProvider extends ServiceProvider
      */
     protected $defer = false;
 
+    private function registerEventListener(): void
+    {
+        Event::listen(
+            config('timezone.timezone_check.events', null) ?? [
+                \Illuminate\Auth\Events\Login::class,
+                \Laravel\Passport\Events\AccessTokenCreated::class,
+            ],
+            config('timezone.timezone_check.listener', null) ?? UpdateUsersTimezone::class
+        );
+    }
 
     /**
      * Perform post-registration booting of services.
@@ -75,18 +85,5 @@ class LaravelTimezoneServiceProvider extends ServiceProvider
             __DIR__ . '/config/timezone.php',
             'timezone'
         );
-    }
-
-    /**
-     *
-     */
-    private function registerEventListener(): void
-    {
-        $events = [
-            \Illuminate\Auth\Events\Login::class,
-            \Laravel\Passport\Events\AccessTokenCreated::class,
-        ];
-
-        Event::listen($events, UpdateUsersTimezone::class);
     }
 }

@@ -4,72 +4,21 @@ namespace JamesMills\LaravelTimezone\Listeners\Auth;
 
 use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Auth;
+use JamesMills\LaravelTimezone\Traits\RetrievesGeoIpTimezone;
 use Laravel\Passport\Events\AccessTokenCreated;
-use Torann\GeoIP\Location;
 
 class UpdateUsersTimezone
 {
+    use RetrievesGeoIpTimezone;
 
-    /**
-     * Handle the event.
-     *
-     * @return void
-     */
-    public function handle($event)
-    {
-        $user = null;
-
-        /**
-         * If the event is AccessTokenCreated,
-         * we logged the user and return,
-         * stopping the execution.
-         *
-         * The Auth::loginUsingId dispatches a Login event,
-         * making this listener be called again.
-         */
-        if ($event instanceof AccessTokenCreated) {
-            Auth::loginUsingId($event->userId);
-
-            return;
-        }
-
-        /**
-         * If the event is Login, we get the user from the web guard.
-         */
-        if ($event instanceof Login) {
-            $user = Auth::user();
-        }
-
-        /**
-         * If no user is found, we just return. Nothing to do here.
-         */
-        if (is_null($user)) {
-            return;
-        }
-
-        $ip = $this->getFromLookup();
-        $geoip_info = geoip()->getLocation($ip);
-
-        if ($user->timezone != $geoip_info['timezone']) {
-            if (config('timezone.overwrite') == true || $user->timezone == null) {
-                $user->timezone = $geoip_info['timezone'];
-                $user->save();
-
-                $this->notify($geoip_info);
-            }
-        }
-    }
-
-    /**
-     * @param  Location  $geoip_info
-     */
-    private function notify(Location $geoip_info)
+    private function notify(array $info): void
     {
         if (config('timezone.flash') == 'off') {
             return;
         }
 
-        $message = 'We have set your timezone to ' . $geoip_info['timezone'];
+        // TODO(sergotail): move to config, separate null and default timezone message case
+        $message = 'We have set your timezone to ' . $info['timezone'];
 
         if (config('timezone.flash') == 'laravel') {
             request()->session()->flash('success', $message);
@@ -102,10 +51,7 @@ class UpdateUsersTimezone
         }
     }
 
-    /**
-    * @return mixed
-    */
-    private function getFromLookup()
+    private function getFromLookup(): ?string
     {
         $result = null;
 
@@ -124,12 +70,7 @@ class UpdateUsersTimezone
         return $result;
     }
 
-    /**
-     * @param $type
-     * @param $keys
-     * @return string|null
-     */
-    private function lookup($type, $keys)
+    private function lookup($type, $keys): ?string
     {
         $value = null;
 
@@ -141,5 +82,51 @@ class UpdateUsersTimezone
         }
 
         return $value;
+    }
+
+    public function handle($event): void
+    {
+        $user = null;
+
+        /**
+         * If the event is AccessTokenCreated,
+         * we logged the user and return,
+         * stopping the execution.
+         *
+         * The Auth::loginUsingId dispatches a Login event,
+         * making this listener be called again.
+         */
+        if ($event instanceof AccessTokenCreated) {
+            Auth::loginUsingId($event->userId);
+
+            return;
+        }
+
+        /**
+         * If the event is Login, we get the user from the web guard.
+         */
+        if ($event instanceof Login) {
+            $user = Auth::user();
+        }
+
+        /**
+         * If no user is found, we just return. Nothing to do here.
+         */
+        if (is_null($user)) {
+            return;
+        }
+
+        if ($user->timezone === null || config('timezone.overwrite', false) === true) {
+            $info = $this->getGeoIpTimezone($this->getFromLookup());
+
+            if ($user->timezone === null || $user->timezone != $info['timezone']) {
+                if ($info['timezone'] !== null) {
+                    $user->timezone = $info['timezone'];
+                    $user->save();
+                }
+
+                $this->notify($info);
+            }
+        }
     }
 }
