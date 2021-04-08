@@ -96,4 +96,30 @@ return [
         'headers' => [],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Lookup Array
+    |--------------------------------------------------------------------------
+    |
+    | Here you may configure flash messages for timezone setup results.
+    | If null specified, no message will be flashed for current case.
+    |
+    */
+
+    'messages' => [
+        'fail' => [
+            'key' => 'error',
+            'message' => 'We cannot determine your timezone',
+        ],
+
+        'default' => [
+            'key' => 'warning',
+            'message' => 'We cannot determine your timezone and have set it to default: %s',
+        ],
+
+        'success' => [
+            'key' => 'info',
+            'message' => 'We have set your timezone to %s',
+        ],
+    ],
 ];

@@ -4,52 +4,15 @@ namespace JamesMills\LaravelTimezone\Listeners\Auth;
 
 use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Auth;
-use JamesMills\LaravelTimezone\Traits\RetrievesGeoIpTimezone;
+
 use Laravel\Passport\Events\AccessTokenCreated;
+use JamesMills\LaravelTimezone\Traits\FlashesMessage;
+use JamesMills\LaravelTimezone\Traits\RetrievesGeoIpTimezone;
 
 class UpdateUsersTimezone
 {
     use RetrievesGeoIpTimezone;
-
-    private function notify(array $info): void
-    {
-        if (config('timezone.flash') == 'off') {
-            return;
-        }
-
-        // TODO(sergotail): move to config, separate null and default timezone message case
-        $message = 'We have set your timezone to ' . $info['timezone'];
-
-        if (config('timezone.flash') == 'laravel') {
-            request()->session()->flash('success', $message);
-
-            return;
-        }
-
-        if (config('timezone.flash') == 'laracasts') {
-            flash()->success($message);
-
-            return;
-        }
-
-        if (config('timezone.flash') == 'mercuryseries') {
-            flashy()->success($message);
-
-            return;
-        }
-
-        if (config('timezone.flash') == 'spatie') {
-            flash()->success($message);
-
-            return;
-        }
-
-        if (config('timezone.flash') == 'mckenziearts') {
-            notify()->success($message);
-
-            return;
-        }
-    }
+    use FlashesMessage;
 
     private function getFromLookup(): ?string
     {
@@ -82,6 +45,59 @@ class UpdateUsersTimezone
         }
 
         return $value;
+    }
+
+    protected function notify(array $info): void
+    {
+        if (config('timezone.flash') === 'off') {
+            return;
+        }
+
+        if ($info['timezone'] === null) {
+            $key = config('timezone.messages.fail.key', 'error');
+            $message = config('timezone.messages.fail.message');
+        } else {
+            if ($info['default']) {
+                $key = config('timezone.messages.default.key', 'warning');
+                $message = config('timezone.messages.default.message');
+            } else {
+                $key = config('timezone.messages.success.key', 'info');
+                $message = config('timezone.messages.success.message');
+            }
+
+            if ($message !== null) {
+                $message = sprintf($message, $info['timezone']);
+            }
+        }
+
+        if ($message === null) {
+            return;
+        }
+
+        if (config('timezone.flash') === 'laravel') {
+            $this->flashLaravelMessage($key, $message);
+            return;
+        }
+
+        if (config('timezone.flash') === 'laracasts') {
+            $this->flashLaracastsMessage($key, $message);
+            return;
+        }
+
+        if (config('timezone.flash') === 'mercuryseries') {
+            $this->flashMercuryseriesMessage($key, $message);
+            return;
+        }
+
+        if (config('timezone.flash') === 'spatie') {
+            $this->flashSpatieMessage($key, $message);
+            return;
+        }
+
+        if (config('timezone.flash') === 'mckenziearts') {
+            $this->flashMckenzieartsMessage($key, $message);
+            return;
+        }
     }
 
     public function handle($event): void
