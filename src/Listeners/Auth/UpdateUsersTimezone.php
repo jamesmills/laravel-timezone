@@ -25,7 +25,7 @@ class UpdateUsersTimezone
 
             $result = $this->lookup($type, $keys);
 
-            if (is_null($result)) {
+            if ($result === null) {
                 continue;
             }
         }
@@ -128,7 +128,7 @@ class UpdateUsersTimezone
         /**
          * If no user is found, we just return. Nothing to do here.
          */
-        if (is_null($user)) {
+        if ($user === null) {
             return;
         }
 
