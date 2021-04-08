@@ -93,6 +93,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Default Timezone
+    |--------------------------------------------------------------------------
+    |
+    | Here you may configure default timezone for requests with no auth user info.
+    | If null specified, app.timezone config value will be used.
+    |
+    */
+
+    'default' => null,
+
+    /*
+    |--------------------------------------------------------------------------
     | Lookup Array
     |--------------------------------------------------------------------------
     |
