@@ -126,9 +126,9 @@ class UpdateUsersTimezone
         }
 
         /**
-         * If no user is found, we just return. Nothing to do here.
+         * If no user is found or it has no timezone attribute, we just return.
          */
-        if ($user === null) {
+        if ($user === null || !property_exists($user, 'timezone')) {
             return;
         }
 
