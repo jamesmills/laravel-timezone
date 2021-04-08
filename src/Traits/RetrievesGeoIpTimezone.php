@@ -9,7 +9,7 @@ trait RetrievesGeoIpTimezone
         $info = geoip()->getLocation($ip);
 
         return [
-            'timezone' => $info['timezone'] ?? ($info['time_zone'] ?? [])['name'] ?? null,
+            'timezone' => ($info['time_zone'] ?? [])['name'] ?? ($info['timezone'] ?? null),
             'default' => $info['default'] ?? false,
         ];
     }
