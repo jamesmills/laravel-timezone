@@ -21,7 +21,7 @@ class AddTimezoneColumnsToUsersTable extends Migration
 
         if (!Schema::hasColumn('users', 'detect_timezone')) {
             Schema::table('users', function (Blueprint $table) {
-                $table->boolean('detect_timezone')->after('timezone')->default(false);
+                $table->boolean('detect_timezone')->after('timezone')->nullable();
             });
         }
     }
