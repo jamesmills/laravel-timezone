@@ -18,7 +18,7 @@ class UpdateUsersTimezone
     {
         $result = null;
 
-        foreach (config('timezone.lookup') as $type => $keys) {
+        foreach (config('timezone.lookup', []) as $type => $keys) {
             if (empty($keys)) {
                 continue;
             }
@@ -49,7 +49,7 @@ class UpdateUsersTimezone
 
     protected function notify(array $info): void
     {
-        if (config('timezone.flash') === 'off') {
+        if (config('timezone.flash', 'off') === 'off') {
             return;
         }
 

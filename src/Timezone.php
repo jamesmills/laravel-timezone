@@ -44,7 +44,7 @@ class Timezone
             return config('timezone.empty_date', 'Empty');
         }
 
-        $formatted = $date->format($format ?? config('timezone.format'));
+        $formatted = $date->format($format ?? config('timezone.format', 'jS F Y g:i:a'));
 
         if ($displayTimezone) {
             return $formatted . ' ' . $this->formatTimezone($date);
