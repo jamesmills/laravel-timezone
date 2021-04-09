@@ -4,7 +4,6 @@ namespace JamesMills\LaravelTimezone\Listeners\Auth;
 
 use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Schema;
 
 use Laravel\Passport\Events\AccessTokenCreated;
 use JamesMills\LaravelTimezone\Traits\FlashesMessage;
