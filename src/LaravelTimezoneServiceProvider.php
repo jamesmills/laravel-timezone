@@ -17,6 +17,16 @@ class LaravelTimezoneServiceProvider extends ServiceProvider
      */
     protected $defer = false;
 
+    private function registerEventListener(): void
+    {
+        Event::listen(
+            config('timezone.timezone_check.events', null) ?? [
+                \Illuminate\Auth\Events\Login::class,
+                \Laravel\Passport\Events\AccessTokenCreated::class,
+            ],
+            config('timezone.timezone_check.listener', null) ?? UpdateUsersTimezone::class
+        );
+    }
 
     /**
      * Perform post-registration booting of services.
@@ -26,9 +36,9 @@ class LaravelTimezoneServiceProvider extends ServiceProvider
     public function boot()
     {
         // Allow migrations publish
-        if (! class_exists('AddTimezoneColumnToUsersTable')) {
+        if (!class_exists('AddTimezoneColumnsToUsersTable')) {
             $this->publishes([
-                __DIR__ . '/database/migrations/add_timezone_column_to_users_table.php.stub' => database_path('/migrations/' . date('Y_m_d_His') . '_add_timezone_column_to_users_table.php'),
+                __DIR__ . '/database/migrations/add_timezone_columns_to_users_table.php.stub' => database_path('/migrations/' . date('Y_m_d_His') . '_add_timezone_columns_to_users_table.php'),
             ], 'migrations');
         }
 
@@ -75,18 +85,5 @@ class LaravelTimezoneServiceProvider extends ServiceProvider
             __DIR__ . '/config/timezone.php',
             'timezone'
         );
-    }
-
-    /**
-     *
-     */
-    private function registerEventListener(): void
-    {
-        $events = [
-            \Illuminate\Auth\Events\Login::class,
-            \Laravel\Passport\Events\AccessTokenCreated::class,
-        ];
-
-        Event::listen($events, UpdateUsersTimezone::class);
     }
 }

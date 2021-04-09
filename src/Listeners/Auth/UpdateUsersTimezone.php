@@ -4,18 +4,103 @@ namespace JamesMills\LaravelTimezone\Listeners\Auth;
 
 use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Auth;
+
 use Laravel\Passport\Events\AccessTokenCreated;
-use Torann\GeoIP\Location;
+use JamesMills\LaravelTimezone\Traits\FlashesMessage;
+use JamesMills\LaravelTimezone\Traits\RetrievesGeoIpTimezone;
 
 class UpdateUsersTimezone
 {
+    use RetrievesGeoIpTimezone;
+    use FlashesMessage;
 
-    /**
-     * Handle the event.
-     *
-     * @return void
-     */
-    public function handle($event)
+    private function getFromLookup(): ?string
+    {
+        $result = null;
+
+        foreach (config('timezone.lookup', []) as $type => $keys) {
+            if (empty($keys)) {
+                continue;
+            }
+
+            $result = $this->lookup($type, $keys);
+
+            if ($result === null) {
+                continue;
+            }
+        }
+
+        return $result;
+    }
+
+    private function lookup($type, $keys): ?string
+    {
+        $value = null;
+
+        foreach ($keys as $key) {
+            if (!request()->$type->has($key)) {
+                continue;
+            }
+            $value = request()->$type->get($key);
+        }
+
+        return $value;
+    }
+
+    protected function notify(array $info): void
+    {
+        if (config('timezone.flash', 'off') === 'off') {
+            return;
+        }
+
+        if ($info['timezone'] === null) {
+            $key = config('timezone.messages.fail.key', 'error');
+            $message = config('timezone.messages.fail.message');
+        } else {
+            if ($info['default']) {
+                $key = config('timezone.messages.default.key', 'warning');
+                $message = config('timezone.messages.default.message');
+            } else {
+                $key = config('timezone.messages.success.key', 'info');
+                $message = config('timezone.messages.success.message');
+            }
+
+            if ($message !== null) {
+                $message = sprintf($message, $info['timezone']);
+            }
+        }
+
+        if ($message === null) {
+            return;
+        }
+
+        if (config('timezone.flash') === 'laravel') {
+            $this->flashLaravelMessage($key, $message);
+            return;
+        }
+
+        if (config('timezone.flash') === 'laracasts') {
+            $this->flashLaracastsMessage($key, $message);
+            return;
+        }
+
+        if (config('timezone.flash') === 'mercuryseries') {
+            $this->flashMercuryseriesMessage($key, $message);
+            return;
+        }
+
+        if (config('timezone.flash') === 'spatie') {
+            $this->flashSpatieMessage($key, $message);
+            return;
+        }
+
+        if (config('timezone.flash') === 'mckenziearts') {
+            $this->flashMckenzieartsMessage($key, $message);
+            return;
+        }
+    }
+
+    public function handle($event): void
     {
         $user = null;
 
@@ -41,105 +126,32 @@ class UpdateUsersTimezone
         }
 
         /**
-         * If no user is found, we just return. Nothing to do here.
+         * If no user is found or it has no timezone-related methods, return.
          */
-        if (is_null($user)) {
+        if (
+            $user === null ||
+            !method_exists($user, 'getTimezone') ||
+            !method_exists($user, 'getDetectTimezone') ||
+            !method_exists($user, 'setTimezone') ||
+            !method_exists($user, 'setDetectTimezone')
+        ) {
             return;
         }
 
-        $ip = $this->getFromLookup();
-        $geoip_info = geoip()->getLocation($ip);
+        $overwrite = $user->getDetectTimezone() ?? config('timezone.overwrite', true);
+        $timezone = $user->getTimezone();
 
-        if ($user->timezone != $geoip_info['timezone']) {
-            if (config('timezone.overwrite') == true || $user->timezone == null) {
-                $user->timezone = $geoip_info['timezone'];
-                $user->save();
+        if ($timezone === null || $overwrite === true) {
+            $info = $this->getGeoIpTimezone($this->getFromLookup());
 
-                $this->notify($geoip_info);
+            if ($timezone === null || $timezone !== $info['timezone']) {
+                if ($info['timezone'] !== null) {
+                    $user->setTimezone($info['timezone']);
+                    $user->save();
+                }
+
+                $this->notify($info);
             }
         }
-    }
-
-    /**
-     * @param  Location  $geoip_info
-     */
-    private function notify(Location $geoip_info)
-    {
-        if (config('timezone.flash') == 'off') {
-            return;
-        }
-
-        $message = 'We have set your timezone to ' . $geoip_info['timezone'];
-
-        if (config('timezone.flash') == 'laravel') {
-            request()->session()->flash('success', $message);
-
-            return;
-        }
-
-        if (config('timezone.flash') == 'laracasts') {
-            flash()->success($message);
-
-            return;
-        }
-
-        if (config('timezone.flash') == 'mercuryseries') {
-            flashy()->success($message);
-
-            return;
-        }
-
-        if (config('timezone.flash') == 'spatie') {
-            flash()->success($message);
-
-            return;
-        }
-
-        if (config('timezone.flash') == 'mckenziearts') {
-            notify()->success($message);
-
-            return;
-        }
-    }
-
-    /**
-    * @return mixed
-    */
-    private function getFromLookup()
-    {
-        $result = null;
-
-        foreach (config('timezone.lookup') as $type => $keys) {
-            if (empty($keys)) {
-                continue;
-            }
-
-            $result = $this->lookup($type, $keys);
-
-            if (is_null($result)) {
-                continue;
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * @param $type
-     * @param $keys
-     * @return string|null
-     */
-    private function lookup($type, $keys)
-    {
-        $value = null;
-
-        foreach ($keys as $key) {
-            if (!request()->$type->has($key)) {
-                continue;
-            }
-            $value = request()->$type->get($key);
-        }
-
-        return $value;
     }
 }

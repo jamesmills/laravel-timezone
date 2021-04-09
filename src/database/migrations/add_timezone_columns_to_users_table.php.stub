@@ -2,8 +2,9 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class AddTimezoneColumnToUsersTable extends Migration
+class AddTimezoneColumnsToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -17,6 +18,12 @@ class AddTimezoneColumnToUsersTable extends Migration
                 $table->string('timezone')->after('remember_token')->nullable();
             });
         }
+
+        if (!Schema::hasColumn('users', 'detect_timezone')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->boolean('detect_timezone')->after('timezone')->nullable();
+            });
+        }
     }
 
     /**
@@ -28,6 +35,7 @@ class AddTimezoneColumnToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('timezone');
+            $table->dropColumn('detect_timezone');
         });
     }
 }

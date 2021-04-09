@@ -6,49 +6,7 @@ use Carbon\Carbon;
 
 class Timezone
 {
-    /**
-     * @param  Carbon\Carbon|null  $date
-     * @param  null  $format
-     * @param  bool  $format_timezone
-     * @return string
-     */
-    public function convertToLocal(?Carbon $date, $format = null, $format_timezone = false) : string
-    {
-        if (is_null($date)) {
-            return 'Empty';
-        }
-
-        $timezone = (auth()->user()->timezone) ?? config('app.timezone');
-
-        $date->setTimezone($timezone);
-
-        if (is_null($format)) {
-            return $date->format(config('timezone.format'));
-        }
-
-        $formatted_date_time = $date->format($format);
-
-        if ($format_timezone) {
-            return $formatted_date_time . ' ' . $this->formatTimezone($date);
-        }
-
-        return $formatted_date_time;
-    }
-
-    /**
-     * @param $date
-     * @return Carbon\Carbon
-     */
-    public function convertFromLocal($date) : Carbon
-    {
-        return Carbon::parse($date, auth()->user()->timezone)->setTimezone('UTC');
-    }
-
-    /**
-     * @param  Carbon\Carbon  $date
-     * @return string
-     */
-    private function formatTimezone(Carbon $date) : string
+    protected function formatTimezone(Carbon $date): string
     {
         $timezone = $date->format('e');
         $parts = explode('/', $timezone);
@@ -58,5 +16,45 @@ class Timezone
         }
 
         return str_replace('_', ' ', $parts[0]);
+    }
+
+    public function toLocal(?Carbon $date): ?Carbon
+    {
+        if ($date === null) {
+            return null;
+        }
+
+        // TODO(sergotail): use geoip timezone suggestion for non-authorized users too
+        // (make it configurable)
+        $timezone = auth()->user()->getTimezone() ??
+            config('timezone.default', null) ??
+            config('app.timezone');
+
+        return $date->copy()->setTimezone($timezone);
+    }
+
+    public function convertToLocal(
+        ?Carbon $date,
+        ?string $format = null,
+        bool $displayTimezone = false
+    ): string {
+        $date = $this->toLocal($date);
+
+        if ($date === null) {
+            return config('timezone.empty_date', 'Empty');
+        }
+
+        $formatted = $date->format($format ?? config('timezone.format', 'jS F Y g:i:a'));
+
+        if ($displayTimezone) {
+            return $formatted . ' ' . $this->formatTimezone($date);
+        }
+
+        return $formatted;
+    }
+
+    public function convertFromLocal($date): Carbon
+    {
+        return Carbon::parse($date, auth()->user()->getTimezone())->setTimezone('UTC');
     }
 }
