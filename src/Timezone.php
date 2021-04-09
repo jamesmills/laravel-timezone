@@ -26,7 +26,7 @@ class Timezone
 
         // TODO(sergotail): use geoip timezone suggestion for non-authorized users too
         // (make it configurable)
-        $timezone = auth()->user()->timezone ??
+        $timezone = auth()->user()->getTimezone() ??
             config('timezone.default', null) ??
             config('app.timezone');
 
@@ -55,6 +55,6 @@ class Timezone
 
     public function convertFromLocal($date): Carbon
     {
-        return Carbon::parse($date, auth()->user()->timezone)->setTimezone('UTC');
+        return Carbon::parse($date, auth()->user()->getTimezone())->setTimezone('UTC');
     }
 }

@@ -127,20 +127,27 @@ class UpdateUsersTimezone
         }
 
         /**
-         * If no user is found or it has no timezone attribute, we just return.
+         * If no user is found or it has no timezone-related methods, return.
          */
-        if ($user === null || !Schema::hasColumn($user->getTable(), 'timezone')) {
+        if (
+            $user === null ||
+            !method_exists($user, 'getTimezone') ||
+            !method_exists($user, 'getDetectTimezone') ||
+            !method_exists($user, 'setTimezone') ||
+            !method_exists($user, 'setDetectTimezone')
+        ) {
             return;
         }
 
-        $overwrite = $user->detect_timezone ?? config('timezone.overwrite', false);
+        $overwrite = $user->getDetectTimezone() ?? config('timezone.overwrite', true);
+        $timezone = $user->getTimezone();
 
-        if ($user->timezone === null || $overwrite === true) {
+        if ($timezone === null || $overwrite === true) {
             $info = $this->getGeoIpTimezone($this->getFromLookup());
 
-            if ($user->timezone === null || $user->timezone != $info['timezone']) {
+            if ($timezone === null || $timezone !== $info['timezone']) {
                 if ($info['timezone'] !== null) {
-                    $user->timezone = $info['timezone'];
+                    $user->setTimezone($info['timezone']);
                     $user->save();
                 }
 
