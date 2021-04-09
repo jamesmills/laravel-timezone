@@ -12,7 +12,7 @@ An easy way to set a timezone for a user in your application and then show date/
 
 ## How does it work
 
-This package listens for the `\Illuminate\Auth\Events\Login` event and will then automatically set a `timezone` on your `user` model (stored in the database).
+This package listens for the `\Illuminate\Auth\Events\Login` event and will then automatically set a `timezone` on your `user` model (stored in the database). It decides whether to update user timezone or not according to user `detect_timezone` attribute, or, if not set, according to default value in config. For non-authorized routes, where auth user info is not accessible, package will use default timezone from its config.
 
 This package uses the [torann/geoip](http://lyften.com/projects/laravel-geoip/doc/) package which looks up the users location based on their IP address. The package also returns information like the users currency and users timezone. [You can configure this package separately if you require](#custom-configuration).
 
@@ -34,23 +34,52 @@ Or use our nice blade directive
 
 ## Installation
 
-Pull in the package using Composer
+### Pull in the package using Composer
 
 ```
 composer require jamesmills/laravel-timezone
 ```
 
-Publish database migrations
- 
+### Publish database migrations
+
 ```
 php artisan vendor:publish --provider="JamesMills\LaravelTimezone\LaravelTimezoneServiceProvider" --tag=migrations
 ```
 
-Run the database migrations. This will add a `timezone` column to your `users` table.
+Run the database migrations. This will add `timezone` and `detect_timezone` columns to your `users` table. Note that migration will be placed to default Laravel migrations folder, so if you use custom folder, you should move migration file to appropriate location.
 
 ```
 php artisan migrate
 ```
+
+### Update User model
+
+Add `JamesMills\LaravelTimezone\Traits\HasTimezone` trait to your `user` model:
+
+```php
+use HasTimezone;
+```
+
+If you use package default attributes setup, `User` model has attribute `detect_timezone`.
+If you wish to work with it, you can add boolean cast for your `User` model:
+
+```php
+protected $casts = [
+  'detect_timezone' => 'boolean',
+];
+```
+
+If you wish to use per-user timezone overwriting, you can add `detect_timezone` attribute to your `User` model fillable property:
+
+```php
+protected $fillable = [
+        'detect_timezone',
+    ];
+```
+
+### Custom timezone attributes location
+
+If you wish to use different location for `timezone` and `detect_timezone` attributes, e.g. `Profile` model, you should override `HasTimezone` trait and use overriden one in your `User` model.
 
 ## Examples
 
@@ -70,6 +99,14 @@ If you wish you can set a custom format and also include a nice version of the t
 {{ Timezone::convertToLocal($post->created_at, 'Y-m-d g:i', true) }}
 
 // 2018-07-04 3:32 New York, America
+```
+
+If you wish to further work with converted Carbon instance, you can use toLocal method:
+
+```php
+{{ Timezone::toLocal($post->created_at)->diffForHumans() }}
+
+// diff calculated relative to datetime with user-end timezone
 ```
 
 ### Using blade directive
@@ -125,7 +162,7 @@ To override this configuration, you just need to change the `flash` property ins
 
 ### Overwrite existing timezones in the database
 
-By default, the timezone will be overwritten at each login with the current user timezone. This behavior can be restricted to only update the timezone if it is blank by setting the `'overwrite' => false,` config option.
+User timezone will be overwritten at each login with the current user timezone if `detect_timezone` is set to true for this user. If this attribute is not set, by default, the timezone will be overwritten. This behavior can be restricted to only update the timezone if it is blank by setting the `'overwrite' => false,` config option.
 
 ### Default Format
 
