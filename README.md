@@ -16,7 +16,7 @@ This package listens for the `\Illuminate\Auth\Events\Login` event and will then
 
 This package uses the [torann/geoip](http://lyften.com/projects/laravel-geoip/doc/) package which looks up the users location based on their IP address. The package also returns information like the users currency and users timezone. [You can configure this package separately if you require](#custom-configuration).
 
- ## How to use
+## How to use
 
 You can show dates to your user in their timezone by using
 
@@ -36,23 +36,27 @@ Or use our nice blade directive
 
 ### Pull in the package using Composer
 
-```
+```bash
 composer require jamesmills/laravel-timezone
 ```
 
-### Publish database migrations
+### Default timezone attributes location
 
-```
+By default, timezone attributes placed into `users` table. If you wish to use package with this default, see instructions below.
+
+#### Publish database migrations
+
+```bash
 php artisan vendor:publish --provider="JamesMills\LaravelTimezone\LaravelTimezoneServiceProvider" --tag=migrations
 ```
 
 Run the database migrations. This will add `timezone` and `detect_timezone` columns to your `users` table. Note that migration will be placed to default Laravel migrations folder, so if you use custom folder, you should move migration file to appropriate location.
 
-```
+```bash
 php artisan migrate
 ```
 
-### Update User model
+#### Update User model
 
 Add `JamesMills\LaravelTimezone\Traits\HasTimezone` trait to your `user` model:
 
@@ -60,8 +64,7 @@ Add `JamesMills\LaravelTimezone\Traits\HasTimezone` trait to your `user` model:
 use HasTimezone;
 ```
 
-If you use package default attributes setup, `User` model has attribute `detect_timezone`.
-If you wish to work with it, you can add boolean cast for your `User` model:
+If you wish to work with `detect_timezone` attribute directly, you can add boolean cast for your `User` model:
 
 ```php
 protected $casts = [
@@ -69,11 +72,11 @@ protected $casts = [
 ];
 ```
 
-If you wish to use per-user timezone overwriting, you can add `detect_timezone` attribute to your `User` model fillable property:
+If you wish to set per-user timezone overwriting at user creation time, you can add `detect_timezone` attribute to your `User` model fillable property:
 
 ```php
 protected $fillable = [
-        'detect_timezone',
+    'detect_timezone',
     ];
 ```
 
