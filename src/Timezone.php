@@ -23,10 +23,10 @@ class Timezone
         $date->setTimezone($timezone);
 
         if (is_null($format)) {
-            return $date->format(config('timezone.format'));
+            return $date->translatedFormat(config('timezone.format'));
         }
 
-        $formatted_date_time = $date->format($format);
+        $formatted_date_time = $date->translatedFormat($format);
 
         if ($format_timezone) {
             return $formatted_date_time . ' ' . $this->formatTimezone($date);
