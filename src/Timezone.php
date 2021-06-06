@@ -15,7 +15,7 @@ class Timezone
     public function convertToLocal(?Carbon $date, $format = null, $format_timezone = false) : string
     {
         if (is_null($date)) {
-            return 'Empty';
+            return __('Empty');
         }
 
         $timezone = (auth()->user()->timezone) ?? config('app.timezone');
