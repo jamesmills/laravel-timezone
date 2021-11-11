@@ -52,7 +52,7 @@ class UpdateUsersTimezone
 
         if ($user->timezone != $geoip_info['timezone']) {
             if (config('timezone.overwrite') == true || $user->timezone == null) {
-                $user->timezone = $geoip_info['timezone'];
+                $user->timezone = $geoip_info['timezone'] ?? $geoip_info->time_zone['name'];
                 $user->save();
 
                 $this->notify($geoip_info);
@@ -103,8 +103,8 @@ class UpdateUsersTimezone
     }
 
     /**
-    * @return mixed
-    */
+     * @return mixed
+     */
     private function getFromLookup()
     {
         $result = null;
