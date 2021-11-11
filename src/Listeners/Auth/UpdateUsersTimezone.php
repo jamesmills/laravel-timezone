@@ -100,6 +100,12 @@ class UpdateUsersTimezone
 
             return;
         }
+
+        if (config('timezone.flash') == 'tall-toasts') {
+            toast()->success($message)->pushOnNextPage();
+
+            return;
+        }
     }
 
     /**
