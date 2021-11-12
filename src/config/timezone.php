@@ -59,7 +59,6 @@ return [
         ],
     ],
     
-    
     /*
     |--------------------------------------------------------------------------
     | User Message
@@ -71,5 +70,5 @@ return [
     |
     */
 
-	'message' => 'We have set your timezone to %s'
+    'message' => 'We have set your timezone to %s'
 ];

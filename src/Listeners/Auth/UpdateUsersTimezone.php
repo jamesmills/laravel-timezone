@@ -9,7 +9,6 @@ use Torann\GeoIP\Location;
 
 class UpdateUsersTimezone
 {
-
     /**
      * Handle the event.
      *
