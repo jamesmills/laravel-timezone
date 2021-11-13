@@ -52,7 +52,7 @@ class UpdateUsersTimezone
 
         if ($user->timezone != $geoip_info['timezone']) {
             if (config('timezone.overwrite') == true || $user->timezone == null) {
-                $user->timezone = $geoip_info['timezone'];
+                $user->timezone = $geoip_info['timezone'] ?? $geoip_info->time_zone['name'];
                 $user->save();
 
                 $this->notify($geoip_info);
@@ -65,7 +65,7 @@ class UpdateUsersTimezone
      */
     private function notify(Location $geoip_info)
     {
-        if (config('timezone.flash') == 'off') {
+        if (request()->hasSession() && config('timezone.flash') == 'off') {
             return;
         }
 
@@ -100,11 +100,17 @@ class UpdateUsersTimezone
 
             return;
         }
+
+        if (config('timezone.flash') == 'tall-toasts') {
+            toast()->success($message)->pushOnNextPage();
+
+            return;
+        }
     }
 
     /**
-    * @return mixed
-    */
+     * @return mixed
+     */
     private function getFromLookup()
     {
         $result = null;
