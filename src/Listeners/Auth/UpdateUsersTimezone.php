@@ -140,10 +140,9 @@ class UpdateUsersTimezone
         $value = null;
 
         foreach ($keys as $key) {
-            if (!request()->$type->has($key)) {
-                continue;
+            if (request()->$type->has($key)) {
+                return request()->$type->get($key);
             }
-            $value = request()->$type->get($key);
         }
 
         return $value;
