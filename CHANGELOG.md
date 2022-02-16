@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.11.0] - 2022-02-16
+### Added
+- Added Laravel 9 support. (Thank you [grantholle](https://github.com/grantholle)) ([PR#80](https://github.com/jamesmills/laravel-timezone/pull/80))
+- Make the message shown to users when timezone is set configurable. (Thank you [samtlewis](https://github.com/samtlewis)) ([PR#66](https://github.com/jamesmills/laravel-timezone/pull/66))
+- Added option to enable Carbon's translatedFormat. (Thank you [aldesrahim](https://github.com/aldesrahim)) ([PR#69](https://github.com/jamesmills/laravel-timezone/pull/69))
+
+
 ## [1.8.0] - 2020-01-22
 ### Added
 - Added the ability to turn off flash messages and use others packages. (Thank you [amandiobm](https://github.com/amandiobm)) ([PR#15](https://github.com/jamesmills/laravel-timezone/pull/15))
