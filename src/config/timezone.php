@@ -59,4 +59,16 @@ return [
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | User Message
+    |--------------------------------------------------------------------------
+    |
+    | Here you may configure the message shown to the user when the timezone is set.
+    | Be sure to include the %s which will be replaced by the detected timezone.
+    | e.g. We have set your timezone to America/New_York
+    |
+    */
+
+    'message' => 'We have set your timezone to %s',
 ];
