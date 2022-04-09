@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Passport\Events\AccessTokenCreated;
 use Torann\GeoIP\Location;
 
+use App\Models\User;    //added this to allow us use the User model below
+
 class UpdateUsersTimezone
 {
     /**
@@ -27,9 +29,16 @@ class UpdateUsersTimezone
          * making this listener be called again.
          */
         if ($event instanceof AccessTokenCreated) {
-            Auth::loginUsingId($event->userId);
+            //Auth::loginUsingId($event->userId);   //loginUsingId does not exist in Laravel Passport's AccessTokenCreated event
 
-            return;
+            /*
+            Passport's AccessTokenCreated event indicates a login has occured and therefore when using Passport (for API), we do 
+            not really need the login event below. Since that login event merely returns the logged in user's user object, we 
+            might as well return the user object here. To do that, we have add "use App\Models\User" at the header section of this
+            page.
+            */
+            $user = User::find($event->userId);
+            //return;   //leaving this causes $user to return null
         }
 
         /**
