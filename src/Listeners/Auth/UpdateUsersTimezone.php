@@ -64,7 +64,7 @@ class UpdateUsersTimezone
      */
     private function notify(Location $geoip_info)
     {
-        if (request()->hasSession() && config('timezone.flash') == 'off') {
+        if (!request()->hasSession() || config('timezone.flash') == 'off') {
             return;
         }
 
