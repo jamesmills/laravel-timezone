@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.13.0] - 2023-02-17
+
+### Removed
+- Removed requirement for `treeware/plant` package.
+
 ## [1.12.0] - 2023-02-15
 
 ### Added

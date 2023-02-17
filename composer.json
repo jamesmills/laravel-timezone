@@ -16,8 +16,7 @@
         "php": ">=7.4",
         "laravel/framework": "5.6.*|5.7.*|5.8.*|^6|^7|^8|^9|^10.0",
         "torann/geoip": "^3.0",
-        "nesbot/carbon": "^1.0|^2.0",
-        "treeware/plant": "dev-main"
+        "nesbot/carbon": "^1.0|^2.0"
     },
     "autoload": {
         "psr-4": {
@@ -30,17 +29,6 @@
             "providers": [
                 "JamesMills\\LaravelTimezone\\LaravelTimezoneServiceProvider"
             ]
-        },
-        "treeware": {
-            "teaser": [
-                "Your message to the consumers of your package to convince them.",
-                "Multiple lines are possible, but not more than 3 lines and 200 characters."
-            ],
-            "priceGroups": {
-                "useful": 100,
-                "important": 250,
-                "critical": 500
-            }
         }
     },
     "require-dev": {
