@@ -3,62 +3,104 @@
 namespace JamesMills\LaravelTimezone;
 
 use Carbon\Carbon;
+use Carbon\CarbonImmutable;
+use Carbon\FactoryImmutable;
+use Illuminate\Support\Facades\Auth;
 
 class Timezone
 {
     /**
-     * @param  Carbon\Carbon|null  $date
-     * @param  null  $format
-     * @param  bool  $format_timezone
+     * Gets the current user's timezone and if not present,
+     * the app's timezone as a fallback.
+     *
      * @return string
      */
-    public function convertToLocal(?Carbon $date, $format = null, $format_timezone = false, $enableTranslation = null) : string
+    public function getCurrentTimezone(): string
     {
-        if (is_null($date)) {
-            return __('Empty');
+        return Auth::user()?->timezone ?? config('app.timezone');
+    }
+
+    public function getCarbonFactory(object $user = null): FactoryImmutable
+    {
+        $factory = (new FactoryImmutable([
+                'locale' => config('app.locale'),
+                'timezone' => config('app.timezone'),
+            ]))
+            ->setClassName(CarbonImmutable::class);
+
+        if ($user = $user ?? Auth::user()) {
+            $factory->mergeSettings([
+                'locale' => $user->locale ?? config('app.locale'),
+                'timezone' => $user->timezone ?? config('app.timezone'),
+            ]);
         }
 
-        $timezone = (auth()->user()->timezone) ?? config('app.timezone');
-        
-        $enableTranslation = $enableTranslation !== null ? $enableTranslation : config('timezone.enableTranslation');
-        
-        $date->setTimezone($timezone);
-
-        if (is_null($format)) {
-            return $enableTranslation ? $date->translatedFormat(config('timezone.format')) : $date->format(config('timezone.format'));
-        }
-
-        $formatted_date_time = $enableTranslation ? $date->translatedFormat($format) : $date->format($format);
-
-        if ($format_timezone) {
-            return $formatted_date_time . ' ' . $this->formatTimezone($date);
-        }
-
-        return $formatted_date_time;
+        return $factory;
     }
 
     /**
-     * @param $date
-     * @return Carbon\Carbon
+     * Converts a date to the current user's timezone.
+     * Optionally pass a format to format the date, otherwise
+     * returns the updated CarbonImmutable instance.
+     *
+     * @param Carbon|CarbonImmutable|null $date
+     * @param string|null $format
+     * @return string|CarbonImmutable
      */
-    public function convertFromLocal($date) : Carbon
+    public function convertToLocal(null|Carbon|CarbonImmutable $date, string $format = null): string|CarbonImmutable
     {
-        return Carbon::parse($date, auth()->user()->timezone)->setTimezone('UTC');
+        $date = $date ?? now();
+
+        $converted = $this->getCarbonFactory()
+            ->make($date);
+
+        if (!$format) {
+            return $converted;
+        }
+
+        return $converted->format($format);
+    }
+
+    public function formatLocal(null|Carbon|CarbonImmutable $date, string $format = null): string
+    {
+        $date = $date ?? now();
+
+        return $this->convertToLocal($date, $format ?? config('timezone.format'));
     }
 
     /**
-     * @param  Carbon\Carbon  $date
-     * @return string
+     * Parses a date from the local user's timezone
+     * and converts it to the app's timezone for storage.
+     *
+     * @param mixed $date
+     * @return CarbonImmutable
      */
-    private function formatTimezone(Carbon $date) : string
+    public function convertFromLocal(mixed $date): CarbonImmutable
     {
-        $timezone = $date->format('e');
-        $parts = explode('/', $timezone);
+        return $this->getCarbonFactory()
+            ->parse($date, $this->getCurrentTimezone())
+            ->setTimezone(config('app.timezone'));
+    }
 
-        if (count($parts) > 1) {
-            return str_replace('_', ' ', $parts[1]) . ', ' . $parts[0];
-        }
+    /**
+     * Gets the user's 'today' date object.
+     *
+     * @return CarbonImmutable
+     */
+    public function today(): CarbonImmutable
+    {
+        return $this->getCarbonFactory()
+            ->today();
+    }
 
-        return str_replace('_', ' ', $parts[0]);
+    /**
+     * Gets the user's 'now' date object.
+     *
+     * @return CarbonImmutable
+     */
+    public function now(): CarbonImmutable
+    {
+        return $this->getCarbonFactory()
+            ->now();
     }
 }

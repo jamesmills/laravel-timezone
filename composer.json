@@ -13,30 +13,49 @@
         }
     ],
     "require": {
-        "php": ">=7.4",
-        "laravel/framework": "5.6.*|5.7.*|5.8.*|^6|^7|^8|^9|^10.0",
-        "torann/geoip": "^3.0",
-        "nesbot/carbon": "^1.0|^2.0"
+        "php": "^8.1",
+        "illuminate/support": "^10.0",
+        "illuminate/contracts": "^10.0",
+        "stevebauman/location": "^6.6"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0",
+        "phpunit/phpunit": "^9.6",
+        "pestphp/pest": "^1.22",
+        "pestphp/pest-plugin-laravel": "^1.4",
+        "spatie/laravel-ray": "^1.32"
     },
     "autoload": {
         "psr-4": {
-            "JamesMills\\LaravelTimezone\\": "src/",
-            "JamesMills\\LaravelTimezone\\Database\\Seeds\\": "database/seeds/"
+            "JamesMills\\LaravelTimezone\\": "src/"
+        },
+        "files": ["src/helpers.php"]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JamesMills\\LaravelTimezone\\Tests\\": "tests"
         }
+    },
+    "scripts": {
+        "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
+        "analyse": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/pint"
     },
     "extra": {
         "laravel": {
             "providers": [
                 "JamesMills\\LaravelTimezone\\LaravelTimezoneServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "Timezone": "JamesMills\\LaravelTimezone\\Facades\\Timezone"
+            }
         }
     },
-    "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.12|^3.14"
-    },
-    "scripts": {
-        "pre-package-install": [
-            "@php artisan config:clear"
-        ]
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     }
 }
