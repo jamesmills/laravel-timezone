@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="/Users/grant/Projects/jamesmills-laravel-timezone/tests/LocalConversionTest.php" tests="9" assertions="10" errors="0" warnings="0" failures="0" skipped="0" time="1.051973">
+    <testsuite name="P\Tests\LocalConversionTest" file="/Users/grant/Projects/jamesmills-laravel-timezone/vendor/pestphp/pest/src/Factories/TestCaseFactory.php(223) : eval()'d code" tests="9" assertions="10" errors="0" warnings="0" failures="0" skipped="0" time="1.051973">
+      <testcase name="it can convert from local timezone" assertions="1" time="0.475988"/>
+      <testcase name="it can detect user timezone with data set &quot;a user without a timezone&quot;" assertions="1" time="0.076783"/>
+      <testcase name="it can make local now" assertions="1" time="0.070085"/>
+      <testcase name="it can convert date to local time formatted with data set &quot;day and time&quot;" assertions="1" time="0.069853"/>
+      <testcase name="it can make local today" assertions="1" time="0.068776"/>
+      <testcase name="it can detect user timezone with data set &quot;a user that has a timezone&quot;" assertions="1" time="0.070101"/>
+      <testcase name="it can convert date to local time object" assertions="2" time="0.070979"/>
+      <testcase name="it can convert date to local time formatted with data set &quot;just days&quot;" assertions="1" time="0.074038"/>
+      <testcase name="it can convert date to local time formatted with data set &quot;using default format&quot;" assertions="1" time="0.075370"/>
+    </testsuite>
+  </testsuite>
+</testsuites>
