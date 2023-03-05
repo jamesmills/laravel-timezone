@@ -9,7 +9,6 @@ use Torann\GeoIP\Location;
 
 class UpdateUsersTimezone
 {
-
     /**
      * Handle the event.
      *
@@ -47,6 +46,13 @@ class UpdateUsersTimezone
             return;
         }
 
+        /**
+         * Overwrite mode is not active and user timezone is already set. Nothing to do here.
+         */
+        if (config('timezone.overwrite') == false && $user->timezone != null) {
+            return;
+        }
+        
         $ip = $this->getFromLookup();
         $geoip_info = geoip()->getLocation($ip);
 
@@ -69,7 +75,7 @@ class UpdateUsersTimezone
             return;
         }
 
-        $message = 'We have set your timezone to ' . $geoip_info['timezone'];
+        $message = sprintf(config('timezone.message', 'We have set your timezone to %s'), $geoip_info['timezone']);
 
         if (config('timezone.flash') == 'laravel') {
             request()->session()->flash('success', $message);
