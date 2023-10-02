@@ -5,6 +5,7 @@ namespace JamesMills\LaravelTimezone\Listeners\Auth;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Passport\Events\AccessTokenCreated;
+use Laravel\Sanctum\Events\TokenAuthenticated;
 use Torann\GeoIP\Location;
 
 class UpdateUsersTimezone
@@ -30,6 +31,13 @@ class UpdateUsersTimezone
             Auth::loginUsingId($event->userId);
 
             return;
+        }
+
+        /**
+         * If the event is TokenAuthenticated, we get the user from the token.
+         */
+        if ($event instanceof TokenAuthenticated) {
+            $user = $event->token->tokenable;
         }
 
         /**
