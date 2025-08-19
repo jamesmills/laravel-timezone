@@ -46,6 +46,13 @@ class UpdateUsersTimezone
             return;
         }
 
+        /**
+         * Overwrite mode is not active and user timezone is already set. Nothing to do here.
+         */
+        if (config('timezone.overwrite') == false && $user->timezone != null) {
+            return;
+        }
+        
         $ip = $this->getFromLookup();
         $geoip_info = geoip()->getLocation($ip);
 
